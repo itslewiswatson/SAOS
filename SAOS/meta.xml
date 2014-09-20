@@ -1,4 +1,10 @@
 <meta>
 	<info author="Callum Dawson" name="SAOS" description="San Andreas Open Source" type="gamemode" />
 	<oop>true</oop>
+	
+	<!-- Config -->
+	<script src="Config/Config-Server.lua" type="server" />
+	
+	<!-- Core -->
+	<script src="Core/Core-Server.lua" type="server" />
 </meta>
