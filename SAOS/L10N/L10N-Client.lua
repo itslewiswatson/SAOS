@@ -1,0 +1,1 @@
+setElementData(localPlayer,"language",getLocalization()["code"])

@@ -7,4 +7,14 @@
 	
 	<!-- Core -->
 	<script src="Core/Core-Server.lua" type="server" />
+	
+	<!-- Joinquit -->
+	<script src="Joinquit/Joinquit-Server.lua" type="server" />
+	
+	<!-- L10N -->
+	<script src="L10N/L10N-Server.lua" type="server" />
+	<script src="L10N/L10N-Client.lua" type="client" />
+	
+	<!-- Utils -->
+	<script src="Utils/Utils-Server.lua" type="server" />
 </meta>
