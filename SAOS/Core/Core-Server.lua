@@ -2,6 +2,7 @@ Core = {}
 
 function Core.Initialize()
 	Config.Parse()
+	SQL.Connect()
 end
 addEventHandler("onResourceStart",resourceRoot,Core.Initialize)
 
