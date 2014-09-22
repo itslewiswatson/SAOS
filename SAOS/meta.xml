@@ -17,4 +17,5 @@
 	
 	<!-- Utils -->
 	<script src="Utils/Utils-Server.lua" type="server" />
+	<script src="Utils/Utils-Countries.lua" type="server" />
 </meta>

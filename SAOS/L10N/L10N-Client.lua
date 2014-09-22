@@ -1,1 +1,1 @@
-setElementData(localPlayer,"language",getLocalization()["code"])
+localPlayer:setData("language",getLocalization()["code"])
