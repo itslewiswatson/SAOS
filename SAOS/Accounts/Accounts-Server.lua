@@ -4,7 +4,7 @@ function Accounts.Setup()
 	SQL.Exec("CREATE TABLE IF NOT EXISTS accounts (id INTEGER PRIMARY KEY AUTOINCREMENT, username TEXT(32) UNIQUE, password TEXT(32), email TEXT(64), lastnick TEXT(32), lastip TEXT(15), lastserial TEXT(32), lastseen TIMESTAMP DEFAULT CURRENT_TIMESTAMP)")
 end
 
-function Accounts.Login(client,username,password)
+function Accounts.Login(username,password)
 	if not isElement(client) then
 		return false
 	end
