@@ -2,6 +2,9 @@
 	<info author="Callum Dawson" name="SAOS" description="San Andreas Open Source" type="gamemode" />
 	<oop>true</oop>
 	
+	<!-- Accounts -->
+	<script src="Accounts/Accounts-Server.lua" type="server" />
+	
 	<!-- SQL -->
 	<script src="SQL/SQL-Server.lua" type="server" />
 	
