@@ -4,6 +4,8 @@
 	
 	<!-- Accounts -->
 	<script src="Accounts/Accounts-Server.lua" type="server" />
+	<script src="Accounts/Accounts-Client.lua" type="client" />
+	<file src="Accounts/Background.jpg" />
 	
 	<!-- SQL -->
 	<script src="SQL/SQL-Server.lua" type="server" />
@@ -13,6 +15,7 @@
 	
 	<!-- Core -->
 	<script src="Core/Core-Server.lua" type="server" />
+	<script src="Core/Core-Client.lua" type="client" />
 	
 	<!-- Joinquit -->
 	<script src="Joinquit/Joinquit-Server.lua" type="server" />
@@ -24,4 +27,5 @@
 	<!-- Utils -->
 	<script src="Utils/Utils-Server.lua" type="server" />
 	<script src="Utils/Utils-Countries.lua" type="server" />
+	<script src="Utils/Utils-Client.lua" type="client" />
 </meta>

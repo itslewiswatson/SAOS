@@ -13,11 +13,11 @@ function Accounts.Login(username,password)
 		if id then
 			client:setData("account",id)
 			client:setData("username",username)
-			triggerClientEvent(client,"SAOS.onClientLogin",client,true)
+			triggerClientEvent(client,"SAOS.onLogin",client,true)
 			return triggerEvent("SAOS.onLogin",client,id,username)
 		end
 	end
-	triggerClientEvent(client,"SAOS.onClientLogin",client,false)
+	triggerClientEvent(client,"SAOS.onLogin",client,false)
 end
 
 function Accounts.Register(username,password,email)
@@ -27,10 +27,10 @@ function Accounts.Register(username,password,email)
 	if username and password and email then
 		if not Accounts.IsAccount(username) then
 			local result,rows = SQL.Query("INSERT INTO accounts (username,password,email,lastnick,lastip,lastserial) VALUES (?,?,?,?,?,?)",username,password,email,client:getName(),client:getIP(),client:getSerial())
-			return triggerClientEvent(client,"SAOS.onClientRegister",client,rows == 1)
+			return triggerClientEvent(client,"SAOS.onRegister",client,rows == 1)
 		end
 	end
-	triggerClientEvent(client,"SAOS.onClientRegister",client,false)
+	triggerClientEvent(client,"SAOS.onRegister",client,false)
 end
 
 function Accounts.Authenticate(username,password)
