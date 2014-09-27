@@ -7,6 +7,7 @@ function Utils.GetPlayerCountry(player)
 			local country = exports.admin:getPlayerCountry(player)
 			return country and Utils.Countries[country] or "Unknown"
 		end
+		return "Unknown"
 	end
 	return false
 end
