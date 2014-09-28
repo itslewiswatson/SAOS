@@ -1,7 +1,7 @@
 Accounts = {}
 
 function Accounts.Setup()
-	SQL.Exec("CREATE TABLE IF NOT EXISTS accounts (id INTEGER PRIMARY KEY AUTOINCREMENT, username TEXT(32) UNIQUE, password TEXT(32), email TEXT(64), lastnick TEXT(32), lastip TEXT(15), lastserial TEXT(32), lastseen TIMESTAMP DEFAULT CURRENT_TIMESTAMP)")
+	SQL.Exec("CREATE TABLE IF NOT EXISTS accounts (id INTEGER PRIMARY KEY AUTOINCREMENT, username TEXT UNIQUE, password TEXT, email TEXT, lastnick TEXT, lastip TEXT, lastserial TEXT, lastseen TIMESTAMP DEFAULT CURRENT_TIMESTAMP)")
 end
 
 function Accounts.Login(username,password)
@@ -13,12 +13,16 @@ function Accounts.Login(username,password)
 		if id then
 			client:setData("account",id)
 			client:setData("username",username)
-			triggerClientEvent(client,"SAOS.onLogin",client,true)
+			triggerClientEvent(client,"SAOS.onLogin",client,1)
 			return triggerEvent("SAOS.onLogin",client,id,username)
+		else
+			return triggerClientEvent(client,"SAOS.onLogin",client,2)
 		end
 	end
-	triggerClientEvent(client,"SAOS.onLogin",client,false)
+	triggerClientEvent(client,"SAOS.onLogin",client,0)
 end
+addEvent("SAOS.Login",true)
+addEventHandler("SAOS.Login",root,Accounts.Login)
 
 function Accounts.Register(username,password,email)
 	if not isElement(client) then
@@ -27,11 +31,15 @@ function Accounts.Register(username,password,email)
 	if username and password and email then
 		if not Accounts.IsAccount(username) then
 			local result,rows = SQL.Query("INSERT INTO accounts (username,password,email,lastnick,lastip,lastserial) VALUES (?,?,?,?,?,?)",username,password,email,client:getName(),client:getIP(),client:getSerial())
-			return triggerClientEvent(client,"SAOS.onRegister",client,rows == 1)
+			return triggerClientEvent(client,"SAOS.onRegister",client,rows == 1 and 1 or 0)
+		else
+			return triggerClientEvent(client,"SAOS.onRegister",client,2)
 		end
 	end
-	triggerClientEvent(client,"SAOS.onRegister",client,false)
+	triggerClientEvent(client,"SAOS.onRegister",client,0)
 end
+addEvent("SAOS.Register",true)
+addEventHandler("SAOS.Register",root,Accounts.Register)
 
 function Accounts.Authenticate(username,password)
 	if username and password then
