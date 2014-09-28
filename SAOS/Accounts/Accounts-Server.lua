@@ -59,7 +59,7 @@ end
 
 function Accounts.GetAccountPlayer(account)
 	if account then
-		for k, v in ipairs(root:getAllByType("player")) do
+		for k, v in ipairs(getElementsByType("player")) do
 			if v:getData("account") == account then
 				return v
 			end

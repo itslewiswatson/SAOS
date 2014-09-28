@@ -4,8 +4,16 @@ function Core.Initialize()
 	Config.Parse()
 	SQL.Connect()
 	Accounts.Setup()
+	Spawn.Setup()
 end
 addEventHandler("onResourceStart",resourceRoot,Core.Initialize)
+
+function Core.Shutdown()
+	for k, v in ipairs(getElementsByType("player")) do
+		Spawn.QuitHandler(v)
+	end
+end
+addEventHandler("onResourceStop",resourceRoot,Core.Shutdown)
 
 function Core.PlayerJoin()
 	Joinquit.JoinHandler(source)
@@ -13,6 +21,7 @@ end
 addEventHandler("onPlayerJoin",root,Core.PlayerJoin)
 
 function Core.PlayerQuit(quitType)
+	Spawn.QuitHandler(source)
 	Joinquit.QuitHandler(source,quitType)
 end
 addEventHandler("onPlayerQuit",root,Core.PlayerQuit)
