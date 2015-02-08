@@ -4,7 +4,9 @@ function Core.Initialize()
 	Config.Parse()
 	SQL.Connect()
 	Accounts.Setup()
+	Jobs.Setup()
 	Spawn.Setup()
+	Vehicles.Setup()
 end
 addEventHandler("onResourceStart",resourceRoot,Core.Initialize)
 
@@ -30,3 +32,8 @@ function Core.PlayerChangeNick(oldNick,newNick)
 	Joinquit.NickHandler(oldNick,newNick)
 end
 addEventHandler("onPlayerChangeNick",root,Core.PlayerChangeNick)
+
+function Core.PlayerWasted()
+	Spawn.Cleanup(source)
+end
+addEventHandler("onPlayerWasted",root,Core.PlayerWasted)

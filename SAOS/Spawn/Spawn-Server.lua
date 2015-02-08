@@ -1,7 +1,12 @@
-Spawn = {}
+Spawn = {
+	PlayerBlips = {}
+}
 
 function Spawn.Setup()
 	SQL.Exec("CREATE TABLE IF NOT EXISTS spawn_data (id INTEGER PRIMARY KEY, x FLOAT, y FLOAT, z FLOAT, rotation FLOAT, interior INTEGER, dimension INTEGER, skin INTEGER, health FLOAT, armor FLOAT, money INTEGER)")
+	for k, v in ipairs(getElementsByType("player")) do
+		Spawn.SetupBlip(v)
+	end
 end
 
 function Spawn.SpawnPlayer(id)
@@ -13,6 +18,8 @@ function Spawn.SpawnPlayer(id)
 	end
 	source:setCameraTarget()
 	source:fadeCamera(true,5)
+	Jobs.SpawnHandler(source)
+	Spawn.SetupBlip(source)
 end
 addEvent("SAOS.onLogin",true)
 addEventHandler("SAOS.onLogin",root,Spawn.SpawnPlayer)
@@ -20,13 +27,28 @@ addEventHandler("SAOS.onLogin",root,Spawn.SpawnPlayer)
 function Spawn.QuitHandler(player)
 	local id = player:getData("account")
 	if id then
-		local x,y,z = player:getPosition()
-		local rotX,rotY,rotZ = player:getRotation()
+		local pos = player:getPosition()
+		local rot = player:getRotation()
 		local exists = SQL.Query("SELECT id FROM spawn_data WHERE id = ? LIMIT 1",id)
 		if exists and #exists == 1 then
-			SQL.Exec("UPDATE spawn_data SET x = ?, y = ?, z = ?, rotation = ?, interior = ?, dimension = ?, skin = ?, health = ?, armor = ?, money = ? WHERE id = ?",x,y,z,rotZ,player:getInterior(),player:getDimension(),player:getModel(),player:getHealth(),getPedArmor(player),player:getMoney(),id)
+			SQL.Exec("UPDATE spawn_data SET x = ?, y = ?, z = ?, rotation = ?, interior = ?, dimension = ?, skin = ?, health = ?, armor = ?, money = ? WHERE id = ?",pos.x,pos.y,pos.z,rot.z,player:getInterior(),player:getDimension(),player:getModel(),player:getHealth(),getPedArmor(player),player:getMoney(),id)
 		else
-			SQL.Exec("INSERT INTO spawn_data (x,y,z,rotation,interior,dimension,skin,health,armor,money) VALUES (?,?,?,?,?,?,?,?,?,?)",x,y,z,rotZ,player:getInterior(),player:getDimension(),player:getModel(),player:getHealth(),getPedArmor(player),player:getMoney(),id)
+			SQL.Exec("INSERT INTO spawn_data (x,y,z,rotation,interior,dimension,skin,health,armor,money) VALUES (?,?,?,?,?,?,?,?,?,?)",pos.x,pos.y,pos.z,rot.z,player:getInterior(),player:getDimension(),player:getModel(),player:getHealth(),getPedArmor(player),player:getMoney(),id)
 		end
+	end
+	Spawn.Cleanup(player)
+end
+
+function Spawn.SetupBlip(player)
+	if not Spawn.PlayerBlips[player] and player:getTeam() then
+		local r,g,b = getPlayerNametagColor(player)
+		Spawn.PlayerBlips[player] = createBlipAttachedTo(player,0,2,r,g,b)
+	end
+end
+
+function Spawn.Cleanup(player)
+	if Spawn.PlayerBlips[player] then
+		destroyElement(Spawn.PlayerBlips[player])
+		Spawn.PlayerBlips[player] = nil
 	end
 end

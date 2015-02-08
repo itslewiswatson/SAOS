@@ -2,6 +2,12 @@
 	<info author="Callum Dawson" name="SAOS" description="San Andreas Open Source" type="gamemode" />
 	<oop>true</oop>
 	
+	<!-- Jobs -->
+	<script src="Jobs/Jobs-Server.lua" type="server"/>
+	
+	<!-- Vehicles -->
+	<script src="Vehicles/Vehicles-Server.lua" type="server"/>
+	
 	<!-- Accounts -->
 	<script src="Accounts/Accounts-Server.lua" type="server" />
 	<script src="Accounts/Accounts-Client.lua" type="client" />

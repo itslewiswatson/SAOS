@@ -14,7 +14,8 @@ function Accounts.Login(username,password)
 			client:setData("account",id)
 			client:setData("username",username)
 			triggerClientEvent(client,"SAOS.onLogin",client,1)
-			return triggerEvent("SAOS.onLogin",client,id,username)
+			triggerEvent("SAOS.onLogin",client,id,username)
+			return SQL.Exec("UPDATE accounts SET lastnick = ?, lastip = ?, lastserial = ?, lastseen = CURRENT_TIMESTAMP WHERE id = ?",client:getName(),client:getIP(),client:getSerial(),id)
 		else
 			return triggerClientEvent(client,"SAOS.onLogin",client,2)
 		end
