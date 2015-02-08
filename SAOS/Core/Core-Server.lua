@@ -7,12 +7,14 @@ function Core.Initialize()
 	Jobs.Setup()
 	Spawn.Setup()
 	Vehicles.Setup()
+	Utils.SetupPlaytime()
 end
 addEventHandler("onResourceStart",resourceRoot,Core.Initialize)
 
 function Core.Shutdown()
 	for k, v in ipairs(getElementsByType("player")) do
 		Spawn.QuitHandler(v)
+		Utils.StorePlaytime(v)
 	end
 end
 addEventHandler("onResourceStop",resourceRoot,Core.Shutdown)
@@ -25,6 +27,7 @@ addEventHandler("onPlayerJoin",root,Core.PlayerJoin)
 function Core.PlayerQuit(quitType)
 	Spawn.QuitHandler(source)
 	Joinquit.QuitHandler(source,quitType)
+	Utils.StorePlaytime(source)
 end
 addEventHandler("onPlayerQuit",root,Core.PlayerQuit)
 

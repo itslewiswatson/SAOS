@@ -15,6 +15,12 @@ function Spawn.SpawnPlayer(id)
 		source:spawn(data[1].x,data[1].y,data[1].z,data[1].rotation,data[1].skin,data[1].interior,data[1].dimension)
 	else
 		source:spawn(1685.65234375,-2330.4931640625,13.546875)
+		local skin = Config.GetValue("default_spawn_skin")
+		if skin == "random" then
+			repeat until source:setModel(math.random(312))
+		elseif type(tonumber(skin)) == "number" then
+			source:setModel(tonumber(skin))
+		end
 	end
 	source:setCameraTarget()
 	source:fadeCamera(true,5)
@@ -33,7 +39,7 @@ function Spawn.QuitHandler(player)
 		if exists and #exists == 1 then
 			SQL.Exec("UPDATE spawn_data SET x = ?, y = ?, z = ?, rotation = ?, interior = ?, dimension = ?, skin = ?, health = ?, armor = ?, money = ? WHERE id = ?",pos.x,pos.y,pos.z,rot.z,player:getInterior(),player:getDimension(),player:getModel(),player:getHealth(),getPedArmor(player),player:getMoney(),id)
 		else
-			SQL.Exec("INSERT INTO spawn_data (x,y,z,rotation,interior,dimension,skin,health,armor,money) VALUES (?,?,?,?,?,?,?,?,?,?)",pos.x,pos.y,pos.z,rot.z,player:getInterior(),player:getDimension(),player:getModel(),player:getHealth(),getPedArmor(player),player:getMoney(),id)
+			SQL.Exec("INSERT INTO spawn_data (id,x,y,z,rotation,interior,dimension,skin,health,armor,money) VALUES (?,?,?,?,?,?,?,?,?,?,?)",id,pos.x,pos.y,pos.z,rot.z,player:getInterior(),player:getDimension(),player:getModel(),player:getHealth(),getPedArmor(player),player:getMoney(),id)
 		end
 	end
 	Spawn.Cleanup(player)
