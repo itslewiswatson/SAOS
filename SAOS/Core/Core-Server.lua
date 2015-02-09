@@ -8,6 +8,7 @@ function Core.Initialize()
 	Spawn.Setup()
 	Vehicles.Setup()
 	Utils.SetupPlaytime()
+	Core.SetupMisc()
 end
 addEventHandler("onResourceStart",resourceRoot,Core.Initialize)
 
@@ -37,6 +38,13 @@ end
 addEventHandler("onPlayerChangeNick",root,Core.PlayerChangeNick)
 
 function Core.PlayerWasted()
-	Spawn.Cleanup(source)
+	Spawn.PlayerWasted(source)
 end
 addEventHandler("onPlayerWasted",root,Core.PlayerWasted)
+
+function Core.SetupMisc()
+	setFPSLimit(60)
+	setCloudsEnabled(false)
+	setMapName("San Andreas")
+	setGameType("San Andreas Open Source")
+end

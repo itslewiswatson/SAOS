@@ -15,6 +15,7 @@ function Accounts.Login(username,password)
 			client:setData("username",username)
 			triggerClientEvent(client,"SAOS.onLogin",client,1)
 			triggerEvent("SAOS.onLogin",client,id,username)
+			Spawn.SetupBlip(client)
 			Utils.PlaytimeStart(client,id)
 			return SQL.Exec("UPDATE accounts SET lastnick = ?, lastip = ?, lastserial = ?, lastseen = CURRENT_TIMESTAMP WHERE id = ?",client:getName(),client:getIP(),client:getSerial(),id)
 		else
