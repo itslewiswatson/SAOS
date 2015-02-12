@@ -3,6 +3,11 @@ Spawn = {
 	Hospitals = {
 		{"County General Hospital",2033.94921875,-1407.1396484375,17.190710067749,152},
 		{"All Saints General Hospital",1179.3544921875,-1323.6357421875,14.165296554565,270},
+		{"Crippen Memorial Hospital",1244.642578125,332.912109375,19.5546875,335},
+		{"Angel Pine Medical Center",-2196.41796875,-2306.9501953125,30.625,320},
+		{"San Fierro Medical Center",-2663.953125,634.890625,14.453125,180},
+		{"El Quebrados Medical Center",-1514.609375,2525.583984375,55.773216247559,0},
+		{"Fort Carson Medical Center",-321.361328125,1057.021484375,19.7421875,0},
 		{"Las Venturas Hospital",1607.7412109375,1820.1416015625,10.828001022339,0}
 	}
 }
