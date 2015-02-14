@@ -26,6 +26,33 @@ Below is a list of the settings which can be specified in the configuration file
 
 * **db_password** - Sets the password used to establish the SQL connection. Only required for MySQL.
 
+* **civilians_enabled** - Enables or disables the Civilians team and any associated jobs/features
+ * **true** (default) - Enables the Civilians team
+ * **false** - Disables the Civilians team
+
+* **emergency_services_enabled** - Enables or disables the Emergency Services team and any associated jobs/features
+ * **true** (default) - Enables the Emergency Services team
+ * **false** - Disables the Emergency Services team
+
+* **law_enforcement_enabled** - Enables or disables the Law Enforcement team and any associated jobs/features
+ * **true** (default) - Enables the Law Enforcement team
+ * **false** - Disables the Law Enforcement team
+
+* **armed_forces_enabled** - Enables or disables the Armed Forces team and any associated jobs/features
+ * **true** (default) - Enables the Armed Forces team
+ * **false** - Disables the Armed Forces team
+
+* **criminals_enabled** - Enables or disables the Criminals team and any associated jobs/features
+ * **true** (default) - Enables the Criminals team
+ * **false** - Disables the Criminals team
+
+* **default_spawn_skin** - Sets the skin ID that is applied to players when they spawn for the first time. Any skin ID can be specified.
+ * **0** (default) - CJ skin
+ * **random** - A skin chosen at random
+
 * **newbie_vehicles_enabled** - Enables or disables 'newbie vehicles', which are free vehicles spawned at the initial spawn position
  * **true** (default) - Enables 'newbie vehicles'
  * **false** - Disables 'newbie vehicles'
+
+* **newbie_vehicles_model** - Sets the vehicle ID used when spawning the 'newbie vehicles'. Any vehicle ID can be specified.
+ * **481** (default) - BMX
