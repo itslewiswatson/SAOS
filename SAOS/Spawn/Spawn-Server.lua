@@ -26,6 +26,9 @@ function Spawn.SpawnPlayer(id)
 	local data = SQL.Query("SELECT * FROM spawn_data WHERE id = ? LIMIT 1",id)
 	if data and #data == 1 then
 		source:spawn(data[1].x,data[1].y,data[1].z,data[1].rotation,data[1].skin,data[1].interior,data[1].dimension)
+		source:setHealth(data[1].health)
+		source:setArmor(data[1].armor)
+		source:setMoney(data[1].money)
 	else
 		source:spawn(1685.65234375,-2330.4931640625,13.546875)
 		local skin = Config.GetValue("default_spawn_skin")
