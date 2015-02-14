@@ -5,8 +5,7 @@ Accounts = {
 
 function Accounts.Initialize()
 	if not localPlayer:getData("account") then
-		local resX,resY = guiGetScreenSize()
-		Accounts.Login.Window = guiCreateWindow(resX/2-200,resY/2-140,400,280,Utils.GetL10N("ACCOUNTS_TITLE"),false)
+		Accounts.Login.Window = guiCreateWindow(Core.ResX/2-200,Core.ResY/2-140,400,280,Utils.GetL10N("ACCOUNTS_TITLE"),false)
 		guiWindowSetSizable(Accounts.Login.Window,false)
 		Accounts.Login.UsernameLabel = guiCreateLabel(0,50,100,20,Utils.GetL10N("ACCOUNTS_USERNAME"),false,Accounts.Login.Window)
 		guiLabelSetHorizontalAlign(Accounts.Login.UsernameLabel,"right")
@@ -38,7 +37,7 @@ function Accounts.Initialize()
 		addEventHandler("onClientRender",root,Accounts.RenderBackground)
 		guiBringToFront(username ~= "" and Accounts.Login.PasswordEdit or Accounts.Login.UsernameEdit)
 		
-		Accounts.Register.Window = guiCreateWindow(resX/2-200,resY/2-150,400,300,Utils.GetL10N("ACCOUNTS_REGISTER_TITLE"),false)
+		Accounts.Register.Window = guiCreateWindow(Core.ResX/2-200,Core.ResY/2-150,400,300,Utils.GetL10N("ACCOUNTS_REGISTER_TITLE"),false)
 		guiSetVisible(Accounts.Register.Window,false)
 		guiWindowSetSizable(Accounts.Register.Window,false)
 		Accounts.Register.UsernameLabel = guiCreateLabel(0,50,100,20,Utils.GetL10N("ACCOUNTS_USERNAME"),false,Accounts.Register.Window)
@@ -115,23 +114,22 @@ function Accounts.ProcessRegistration()
 end
 
 function Accounts.RenderBackground()
-	local resX,resY = guiGetScreenSize()
-	dxDrawImage(0,0,resX,resY,"Accounts/Background.jpg")
-	dxDrawRectangle(0,0,resX,resY,tocolor(0,0,0,100))
-	dxDrawText("SAOS RPG",4,0,resX,resY/4+4,tocolor(0,0,0),2,"bankgothic","center","center")
-	dxDrawText("SAOS RPG",0,0,resX,resY/4,tocolor(255,255,255),2,"bankgothic","center","center")
+	dxDrawImage(0,0,Core.ResX,Core.ResY,"Accounts/Background.jpg")
+	dxDrawRectangle(0,0,Core.ResX,Core.ResY,tocolor(0,0,0,100))
+	dxDrawText("SAOS RPG",4,0,Core.ResX,Core.ResY/4+4,tocolor(0,0,0),2,"bankgothic","center","center")
+	dxDrawText("SAOS RPG",0,0,Core.ResX,Core.ResY/4,tocolor(255,255,255),2,"bankgothic","center","center")
 	if Accounts.Error then
 		local timeDiff = getTickCount()-Accounts.ErrorTick
-		dxDrawText(Accounts.Error,14,resY/4*3,resX-10,resY+4,tocolor(0,0,0,255-timeDiff/20),1.5,"bankgothic","center","center",false,true)
-		dxDrawText(Accounts.Error,10,resY/4*3,resX-14,resY,tocolor(255,0,0,255-timeDiff/20),1.5,"bankgothic","center","center",false,true)
+		dxDrawText(Accounts.Error,14,Core.ResY/4*3,Core.ResX-10,Core.ResY+4,tocolor(0,0,0,255-timeDiff/20),1.5,"bankgothic","center","center",false,true)
+		dxDrawText(Accounts.Error,10,Core.ResY/4*3,Core.ResX-14,Core.ResY,tocolor(255,0,0,255-timeDiff/20),1.5,"bankgothic","center","center",false,true)
 		if timeDiff >= 5000 then
 			Accounts.Error = nil
 			Accounts.ErrorTick = nil
 		end
 	else
 		local playersText = string.format(Utils.GetL10N("ACCOUNTS_PLAYERS"),#getElementsByType("player"))
-		dxDrawText(playersText,4,resY/4*3,resX,resY+4,tocolor(0,0,0),1.5,"bankgothic","center","center")
-		dxDrawText(playersText,0,resY/4*3,resX,resY,tocolor(255,255,255),1.5,"bankgothic","center","center")
+		dxDrawText(playersText,4,Core.ResY/4*3,Core.ResX,Core.ResY+4,tocolor(0,0,0),1.5,"bankgothic","center","center")
+		dxDrawText(playersText,0,Core.ResY/4*3,Core.ResX,Core.ResY,tocolor(255,255,255),1.5,"bankgothic","center","center")
 	end
 end
 

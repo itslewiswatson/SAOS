@@ -1,5 +1,6 @@
 Jobs = {
-	Teams = {}
+	Teams = {},
+	JobData = {}
 }
 
 function Jobs.Setup()
@@ -8,6 +9,7 @@ function Jobs.Setup()
 	end
 	if Config.GetValue("emergency_services_enabled") ~= "false" then
 		Jobs.Teams["Emergency Services"] = createTeam("Emergency Services",0,255,255)
+		Jobs.JobData["Paramedic"] = {"Emergency Services",274,{{41,500}}}
 	end
 	if Config.GetValue("law_enforcement_enabled") ~= "false" then
 		Jobs.Teams["Law Enforcement"] = createTeam("Law Enforcement",65,105,225)
@@ -22,11 +24,37 @@ function Jobs.Setup()
 	for k, v in ipairs(getElementsByType("player")) do
 		Jobs.SpawnHandler(v)
 	end
+	exports.scoreboard:scoreboardAddColumn("job",root,100,"Job",10)
 end
 
 function Jobs.SpawnHandler(player)
 	local job = player:getData("job")
-	if not job and Jobs.Teams["Unemployed"] then
+	if job and Jobs.JobData[job] and Jobs.Teams[Jobs.JobData[job][1]] then
+		player:setTeam(Jobs.Teams[Jobs.JobData[job][1]])
+	elseif not job and Jobs.Teams["Unemployed"] then
 		setPlayerTeam(player,Jobs.Teams["Unemployed"])
 	end
 end
+
+function Jobs.RequestJob(job)
+	local jobData = Jobs.JobData[job]
+	if jobData and Jobs.Teams[jobData[1]] then
+		client:setTeam(Jobs.Teams[jobData[1]])
+		client:setModel(jobData[2])
+		if jobData[3] then
+			for k, v in ipairs(jobData[3]) do
+				giveWeapon(client,v[1],v[2],v[3])
+				setWeaponAmmo(client,v[1],v[2])
+			end
+		end
+		client:setData("job",job)
+	end
+end
+addEvent("SAOS.RequestJob",true)
+addEventHandler("SAOS.RequestJob",root,Jobs.RequestJob)
+
+addEventHandler("onResourceStart",root,function(resource)
+	if getResourceName(resource) == "scoreboard" then
+		exports.scoreboard:scoreboardAddColumn("job",root,100,"Job",10)
+	end
+end)
