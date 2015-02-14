@@ -11,10 +11,6 @@ function Utils.SetupPlaytime()
 			Utils.PlaytimeStart(v,id)
 		end
 	end
-	local scoreboard = getResourceFromName("scoreboard")
-	if scoreboard and getResourceState(scoreboard) == "running" then
-		exports.scoreboard:scoreboardAddColumn("playtime",root,80,"Playtime",11)
-	end
 end
 
 function Utils.StorePlaytime(source)
@@ -141,9 +137,3 @@ function Utils.PlaytimePulse()
 	end
 end
 setTimer(Utils.PlaytimePulse,30000,0)
-
-addEventHandler("onResourceStart",root,function(resource)
-	if getResourceName(resource) == "scoreboard" then
-		exports.scoreboard:scoreboardAddColumn("playtime",root,80,"Playtime",11)
-	end
-end)

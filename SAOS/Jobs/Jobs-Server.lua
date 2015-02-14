@@ -24,7 +24,6 @@ function Jobs.Setup()
 	for k, v in ipairs(getElementsByType("player")) do
 		Jobs.SpawnHandler(v)
 	end
-	exports.scoreboard:scoreboardAddColumn("job",root,100,"Job",10)
 end
 
 function Jobs.SpawnHandler(player)
@@ -52,9 +51,3 @@ function Jobs.RequestJob(job)
 end
 addEvent("SAOS.RequestJob",true)
 addEventHandler("SAOS.RequestJob",root,Jobs.RequestJob)
-
-addEventHandler("onResourceStart",root,function(resource)
-	if getResourceName(resource) == "scoreboard" then
-		exports.scoreboard:scoreboardAddColumn("job",root,100,"Job",10)
-	end
-end)
