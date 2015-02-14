@@ -1,7 +1,7 @@
 Accounts = {}
 
 function Accounts.Setup()
-	SQL.Exec("CREATE TABLE IF NOT EXISTS accounts (id INTEGER PRIMARY KEY AUTOINCREMENT, username TEXT UNIQUE, password TEXT, email TEXT, lastnick TEXT, lastip TEXT, lastserial TEXT, lastseen TIMESTAMP DEFAULT CURRENT_TIMESTAMP)")
+	SQL.Exec("CREATE TABLE IF NOT EXISTS accounts (id INTEGER PRIMARY KEY AUTO"..(Config.GetValue("db_type") == "mysql" and "_" or "").."INCREMENT, username TEXT UNIQUE, password TEXT, email TEXT, lastnick TEXT, lastip TEXT, lastserial TEXT, lastseen TIMESTAMP DEFAULT CURRENT_TIMESTAMP)")
 end
 
 function Accounts.Login(username,password)

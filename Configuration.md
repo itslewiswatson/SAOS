@@ -16,6 +16,16 @@ Settings
 -----------------------
 Below is a list of the settings which can be specified in the configuration file, including all of the possible values.
 
+* **db_type** - Sets the SQL database connection type
+ * **sqlite** (default) - An SQLite database
+ * **mysql** - A MySQL database
+
+* **db_host** - Sets the host of the SQL connection. For SQLite, use a file name. For MySQL, use the server address.
+
+* **db_username** - Sets the username used to establish the SQL connection. Only required for MySQL.
+
+* **db_password** - Sets the password used to establish the SQL connection. Only required for MySQL.
+
 * **newbie_vehicles_enabled** - Enables or disables 'newbie vehicles', which are free vehicles spawned at the initial spawn position
  * **true** (default) - Enables 'newbie vehicles'
  * **false** - Disables 'newbie vehicles'
