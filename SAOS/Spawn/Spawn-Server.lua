@@ -59,7 +59,7 @@ function Spawn.QuitHandler(player)
 		local rot = player:getRotation()
 		local exists = SQL.Query("SELECT id FROM spawn_data WHERE id = ? LIMIT 1",id)
 		if exists and #exists == 1 then
-			SQL.Exec("UPDATE spawn_data SET x = ?, y = ?, z = ?, rotation = ?, interior = ?, dimension = ?, skin = ?, health = ?, armor = ?, money = ?, job = ?, jobskin = ?, jobactive = ? WHERE id = ?",pos.x,pos.y,pos.z,rot.z,player:getInterior(),player:getDimension(),player:getData("skin") or nil,player:getHealth(),getPedArmor(player),player:getMoney(),player:getData("job"),player:getData("jobSkin"),player:getData("jobActive"),id)
+			SQL.Exec("UPDATE spawn_data SET x = ?, y = ?, z = ?, rotation = ?, interior = ?, dimension = ?, skin = ?, health = ?, armor = ?, money = ?, job = ?, jobskin = ?, jobactive = ? WHERE id = ?",pos.x,pos.y,pos.z,rot.z,player:getInterior(),player:getDimension(),player:getData("skin") or nil,player:getHealth(),getPedArmor(player),player:getMoney(),player:getData("job") or nil,player:getData("jobSkin") or nil,player:getData("jobActive") or nil,id)
 		else
 			SQL.Exec("INSERT INTO spawn_data (id,x,y,z,rotation,interior,dimension,skin,health,armor,money,job,jobskin,jobactive) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)",id,pos.x,pos.y,pos.z,rot.z,player:getInterior(),player:getDimension(),player:getData("skin") or nil,player:getHealth(),getPedArmor(player),player:getMoney(),player:getData("job") or nil,player:getData("jobSkin") or nil,player:getData("jobActive") or nil,id)
 		end
