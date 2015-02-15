@@ -17,6 +17,7 @@ function Accounts.Login(username,password)
 			triggerEvent("SAOS.onLogin",client,id,username)
 			Spawn.SetupBlip(client)
 			Utils.PlaytimeStart(client,id)
+			Weapons.LoadWeapons(client)
 			return SQL.Exec("UPDATE accounts SET lastnick = ?, lastip = ?, lastserial = ?, lastseen = CURRENT_TIMESTAMP WHERE id = ?",client:getName(),client:getIP(),client:getSerial(),id)
 		else
 			return triggerClientEvent(client,"SAOS.onLogin",client,2)

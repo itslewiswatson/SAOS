@@ -13,7 +13,7 @@ Spawn = {
 }
 
 function Spawn.Setup()
-	SQL.Exec("CREATE TABLE IF NOT EXISTS spawn_data (id INTEGER PRIMARY KEY, x FLOAT, y FLOAT, z FLOAT, rotation FLOAT, interior INTEGER, dimension INTEGER, skin INTEGER, health FLOAT, armor FLOAT, money INTEGER, job TEXT, jobskin INT, jobactive BOOL)")
+	SQL.Exec("CREATE TABLE IF NOT EXISTS spawn_data (id INTEGER PRIMARY KEY, x FLOAT, y FLOAT, z FLOAT, rotation FLOAT, interior INTEGER, dimension INTEGER, skin INTEGER, health FLOAT, armor FLOAT, money INTEGER, job TEXT, jobskin INTEGER, jobactive BOOL)")
 	for k, v in ipairs(getElementsByType("player")) do
 		Spawn.SetupBlip(v)
 	end
@@ -76,7 +76,8 @@ end
 
 function Spawn.PlayerWasted(player)
 	player:fadeCamera(false,10)
-	setTimer(function(player)
+	local wepTable = Weapons.GenerateWeaponsTable(player)
+	setTimer(function(player,wepTable)
 		if isElement(player) then
 			local nearestHospital = nil
 			local nearestDistance = nil
@@ -88,20 +89,19 @@ function Spawn.PlayerWasted(player)
 					nearestDistance = distance
 				end
 			end
-			if nearestHospital then
-				local money = player:getMoney()
-				local model = player:getModel()
-				player:spawn(nearestHospital[2]+math.random(-2,2),nearestHospital[3]+math.random(-2,2),nearestHospital[4],nearestHospital[5],model)
-				local bill = money >= 100 and 100 or money > 0 and money or 0
-				player:fadeCamera(true,5)
-				player:takeMoney(bill)
-				if bill < 100 then
-					player:setHealth(math.max(bill,10))
-				end
-				outputChatBox("* You were treated at "..nearestHospital[1].." and billed $"..tostring(bill)..".",player,255,0,0)
+			local money = player:getMoney()
+			local model = player:getModel()
+			player:spawn(nearestHospital[2]+math.random(-2,2),nearestHospital[3]+math.random(-2,2),nearestHospital[4],nearestHospital[5],model)
+			local bill = money >= 100 and 100 or money > 0 and money or 0
+			player:fadeCamera(true,5)
+			player:takeMoney(bill)
+			if bill < 100 then
+				player:setHealth(math.max(bill,10))
 			end
+			Weapons.ApplyWeaponsTable(player,wepTable)
+			outputChatBox("* You were treated at "..nearestHospital[1].." and billed $"..tostring(bill)..".",player,255,0,0)
 		end
-	end,15000,1,player)
+	end,15000,1,player,wepTable)
 end
 
 function Spawn.Cleanup(player)
