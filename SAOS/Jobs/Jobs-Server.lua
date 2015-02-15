@@ -20,6 +20,7 @@ function Jobs.Setup()
 	if Config.GetValue("criminals_enabled") ~= "false" then
 		Jobs.Teams["Criminals"] = createTeam("Criminals",255,0,0)
 	end
+	Jobs.Teams["Off-Duty"] = createTeam("Off-Duty",255,165,0)
 	Jobs.Teams["Unemployed"] = createTeam("Unemployed",139,137,137)
 	for k, v in ipairs(getElementsByType("player")) do
 		Jobs.SpawnHandler(v)
@@ -35,19 +36,25 @@ function Jobs.SpawnHandler(player)
 	end
 end
 
-function Jobs.RequestJob(job)
+function Jobs.ApplyJob(player,job,weapons)
 	local jobData = Jobs.JobData[job]
 	if jobData and Jobs.Teams[jobData[1]] then
-		client:setTeam(Jobs.Teams[jobData[1]])
-		client:setModel(jobData[2])
-		if jobData[3] then
+		player:setTeam(Jobs.Teams[jobData[1]])
+		player:setModel(player:getData("jobSkin") or jobData[2])
+		player:setData("jobSkin",player:getModel())
+		if weapons and jobData[3] then
 			for k, v in ipairs(jobData[3]) do
-				giveWeapon(client,v[1],v[2],v[3])
-				setWeaponAmmo(client,v[1],v[2])
+				giveWeapon(player,v[1],v[2],v[3])
+				setWeaponAmmo(player,v[1],v[2])
 			end
 		end
-		client:setData("job",job)
+		player:setData("job",job)
+		player:setData("jobActive",true)
 	end
+end
+
+function Jobs.RequestJob(job)
+	Jobs.ApplyJob(client,job,true)
 end
 addEvent("SAOS.RequestJob",true)
 addEventHandler("SAOS.RequestJob",root,Jobs.RequestJob)

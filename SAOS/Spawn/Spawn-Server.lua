@@ -13,7 +13,7 @@ Spawn = {
 }
 
 function Spawn.Setup()
-	SQL.Exec("CREATE TABLE IF NOT EXISTS spawn_data (id INTEGER PRIMARY KEY, x FLOAT, y FLOAT, z FLOAT, rotation FLOAT, interior INTEGER, dimension INTEGER, skin INTEGER, health FLOAT, armor FLOAT, money INTEGER)")
+	SQL.Exec("CREATE TABLE IF NOT EXISTS spawn_data (id INTEGER PRIMARY KEY, x FLOAT, y FLOAT, z FLOAT, rotation FLOAT, interior INTEGER, dimension INTEGER, skin INTEGER, health FLOAT, armor FLOAT, money INTEGER, job TEXT, jobskin INT, jobactive BOOL)")
 	for k, v in ipairs(getElementsByType("player")) do
 		Spawn.SetupBlip(v)
 	end
@@ -29,6 +29,12 @@ function Spawn.SpawnPlayer(id)
 		source:setHealth(data[1].health)
 		source:setArmor(data[1].armor)
 		source:setMoney(data[1].money)
+		source:setData("skin",data[1].skin,false)
+		source:setData("jobSkin",data[1].jobskin,false)
+		source:setData("jobActive",data[1].jobactive,false)
+		if data[1].jobactive then
+			Jobs.ApplyJob(source,data[1].job)
+		end
 	else
 		source:spawn(1685.65234375,-2330.4931640625,13.546875)
 		local skin = Config.GetValue("default_spawn_skin")
@@ -37,6 +43,7 @@ function Spawn.SpawnPlayer(id)
 		elseif type(tonumber(skin)) == "number" then
 			source:setModel(tonumber(skin))
 		end
+		source:setData("skin",source:getModel(),false)
 	end
 	source:setCameraTarget()
 	source:fadeCamera(true,5)
@@ -52,9 +59,9 @@ function Spawn.QuitHandler(player)
 		local rot = player:getRotation()
 		local exists = SQL.Query("SELECT id FROM spawn_data WHERE id = ? LIMIT 1",id)
 		if exists and #exists == 1 then
-			SQL.Exec("UPDATE spawn_data SET x = ?, y = ?, z = ?, rotation = ?, interior = ?, dimension = ?, skin = ?, health = ?, armor = ?, money = ? WHERE id = ?",pos.x,pos.y,pos.z,rot.z,player:getInterior(),player:getDimension(),player:getModel(),player:getHealth(),getPedArmor(player),player:getMoney(),id)
+			SQL.Exec("UPDATE spawn_data SET x = ?, y = ?, z = ?, rotation = ?, interior = ?, dimension = ?, skin = ?, health = ?, armor = ?, money = ?, job = ?, jobskin = ?, jobactive = ? WHERE id = ?",pos.x,pos.y,pos.z,rot.z,player:getInterior(),player:getDimension(),player:getData("skin") or nil,player:getHealth(),getPedArmor(player),player:getMoney(),player:getData("job"),player:getData("jobSkin"),player:getData("jobActive"),id)
 		else
-			SQL.Exec("INSERT INTO spawn_data (id,x,y,z,rotation,interior,dimension,skin,health,armor,money) VALUES (?,?,?,?,?,?,?,?,?,?,?)",id,pos.x,pos.y,pos.z,rot.z,player:getInterior(),player:getDimension(),player:getModel(),player:getHealth(),getPedArmor(player),player:getMoney(),id)
+			SQL.Exec("INSERT INTO spawn_data (id,x,y,z,rotation,interior,dimension,skin,health,armor,money,job,jobskin,jobactive) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)",id,pos.x,pos.y,pos.z,rot.z,player:getInterior(),player:getDimension(),player:getData("skin") or nil,player:getHealth(),getPedArmor(player),player:getMoney(),player:getData("job") or nil,player:getData("jobSkin") or nil,player:getData("jobActive") or nil,id)
 		end
 	end
 	Spawn.Cleanup(player)
