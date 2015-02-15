@@ -13,26 +13,26 @@ function Jobs.ShowJobInformation(marker)
 		if isElement(Jobs.InfoWindow) then
 			destroyElement(Jobs.InfoWindow)
 		end
-		Jobs.InfoWindow = guiCreateWindow(Core.ResX/2-200,Core.ResY/2-100,400,200,"Job Information - "..job,false)
+		Jobs.InfoWindow = guiCreateWindow(Core.ResX/2-200,Core.ResY/2-100,400,200,Utils.GetL10N("JOB_INFORMATION").." - "..job,false)
 		guiWindowSetSizable(Jobs.InfoWindow,false)
-		guiSetFont(guiCreateLabel(20,40,360,20,"Job Title:",false,Jobs.InfoWindow),"default-bold-small")
+		guiSetFont(guiCreateLabel(20,40,360,20,Utils.GetL10N("JOB_TITLE"),false,Jobs.InfoWindow),"default-bold-small")
 		guiCreateLabel(110,39,360,20,job,false,Jobs.InfoWindow)
-		guiSetFont(guiCreateLabel(20,70,360,20,"Team:",false,Jobs.InfoWindow),"default-bold-small")
+		guiSetFont(guiCreateLabel(20,70,360,20,Utils.GetL10N("JOB_TEAM"),false,Jobs.InfoWindow),"default-bold-small")
 		local teamLabel = guiCreateLabel(110,69,360,20,team,false,Jobs.InfoWindow)
 		local teamElem = getTeamFromName(team)
 		if teamElem then
 			guiLabelSetColor(teamLabel,teamElem:getColor())
 		end
-		guiSetFont(guiCreateLabel(20,100,360,20,"Description:",false,Jobs.InfoWindow),"default-bold-small")
+		guiSetFont(guiCreateLabel(20,100,360,20,Utils.GetL10N("JOB_DESCRIPTION"),false,Jobs.InfoWindow),"default-bold-small")
 		if desc then
 			guiLabelSetHorizontalAlign(guiCreateLabel(110,99,270,50,desc,false,Jobs.InfoWindow),"left",true)
 		end
-		addEventHandler("onClientGUIClick",guiCreateButton(20,150,170,40,"Accept Job",false,Jobs.InfoWindow),function()
+		addEventHandler("onClientGUIClick",guiCreateButton(20,150,170,40,Utils.GetL10N("JOB_ACCEPT"),false,Jobs.InfoWindow),function()
 			triggerServerEvent("SAOS.RequestJob",localPlayer,job)
 			destroyElement(Jobs.InfoWindow)
 			showCursor(false)
 		end,false)
-		addEventHandler("onClientGUIClick",guiCreateButton(200,150,170,40,"Cancel",false,Jobs.InfoWindow),function()
+		addEventHandler("onClientGUIClick",guiCreateButton(200,150,170,40,Utils.GetL10N("ACCOUNTS_CANCEL"),false,Jobs.InfoWindow),function()
 			destroyElement(Jobs.InfoWindow)
 			showCursor(false)
 		end,false)

@@ -52,6 +52,27 @@ L10N = {
 	},
 	ACCOUNTS_ERROR_UNKNOWN = {
 		en_US = "An unknown error occurred!"
+	},
+	SCOREBOARD_JOB = {
+		en_US = "Job"
+	},
+	SCOREBOARD_PLAYTIME = {
+		en_US = "Playtime"
+	},
+	JOB_INFORMATION = {
+		en_US = "Job Information"
+	},
+	JOB_TITLE = {
+		en_US = "Job Title:"
+	},
+	JOB_TEAM = {
+		en_US = "Team:"
+	},
+	JOB_DESCRIPTION = {
+		en_US = "Description:"
+	},
+	JOB_ACCEPT = {
+		en_US = "Accept Job"
 	}
 }
 
