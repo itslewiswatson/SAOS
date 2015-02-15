@@ -18,7 +18,7 @@ function Updater.StartCheck()
 	if Updater.UpdateAvailable then
 		Updater.UpdateDetected()
 	else
-		fetchRemote("http://cdn.rawgit.com/CallumDawson/SAOS/master/SAOS/meta.xml",Updater.CheckMeta)
+		fetchRemote("http://raw.githack.com/CallumDawson/SAOS/master/SAOS/meta.xml",Updater.CheckMeta)
 	end
 end
 
@@ -45,7 +45,7 @@ function Updater.CheckMeta(meta,errno)
 				end
 			end
 			if #Updater.Files > 0 then
-				fetchRemote("http://cdn.rawgit.com/CallumDawson/SAOS/master/SAOS/"..Updater.Files[1],Updater.CheckFile,"",false,Updater.Files[1])
+				fetchRemote("http://raw.githack.com/CallumDawson/SAOS/master/SAOS/"..Updater.Files[1],Updater.CheckFile,"",false,Updater.Files[1])
 				table.remove(Updater.Files,1)
 			else
 				Updater.Files = nil
@@ -64,7 +64,7 @@ function Updater.CheckFile(file,errno,path)
 			localFile:close()
 		end
 		if Updater.Files and #Updater.Files > 0 then
-			fetchRemote("http://cdn.rawgit.com/CallumDawson/SAOS/master/SAOS/"..Updater.Files[1],Updater.CheckFile,"",false,Updater.Files[1])
+			fetchRemote("http://raw.githack.com/CallumDawson/SAOS/master/SAOS/"..Updater.Files[1],Updater.CheckFile,"",false,Updater.Files[1])
 			table.remove(Updater.Files,1)
 		else
 			Updater.Files = nil
