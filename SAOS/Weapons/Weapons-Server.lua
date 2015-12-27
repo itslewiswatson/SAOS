@@ -12,7 +12,6 @@ function Weapons.SaveWeapons(player)
 			local wep = player:getWeapon(i)
 			local ammo = player:getTotalAmmo(i)
 			if wep and wep > 0 and ammo and ammo > 0 then
-				outputServerLog("INSERT INTO player_weapons (id,weapon,ammo) VALUES ("..tostring(id)..","..tostring(wep)..","..tostring(ammo)..")")
 				SQL.Exec("INSERT INTO player_weapons (id,weapon,ammo) VALUES (?,?,?)",id,wep,ammo)
 			end
 		end

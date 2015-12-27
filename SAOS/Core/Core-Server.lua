@@ -48,6 +48,12 @@ addEventHandler("onPlayerWasted",root,Core.PlayerWasted)
 function Core.SetupMisc()
 	setFPSLimit(60)
 	setCloudsEnabled(false)
+	Core.ChangeWeather()
 	setMapName("San Andreas")
 	setGameType("San Andreas Open Source")
+end
+
+function Core.ChangeWeather()
+	setWeatherBlended(math.random(0,16))
+	setTimer(Core.ChangeWeather,math.random(600000,1200000),1)
 end
