@@ -53,6 +53,26 @@ function Jobs.ApplyJob(player,job,weapons)
 	end
 end
 
+function Jobs.PlayerResign(source)
+	local job = source:getData("job")
+	if job then
+		local jobData = Jobs.JobData[job]
+		if jobData and jobData[3] then
+			for k, v in ipairs(jobData[3]) do
+				takeWeapon(source,v[1],v[2])
+			end
+		end
+		source:setTeam(Jobs.Teams["Unemployed"] and Jobs.Teams["Unemployed"] or nil)
+		source:setModel(source:getData("skin") or 0)
+		source:removeData("job")
+		source:removeData("jobSkin")
+		outputChatBox(string.format(Utils.GetL10N(source,"JOB_RESIGNED"),job),source,255,255,0)
+	else
+		outputChatBox(string.format(Utils.GetL10N(source,"JOB_NOT_EMPLOYED"),job),source,255,0,0)
+	end
+end
+addCommandHandler("resign",Jobs.PlayerResign,false,false)
+
 function Jobs.RequestJob(job)
 	Jobs.ApplyJob(client,job,true)
 end

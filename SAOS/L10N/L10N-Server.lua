@@ -13,5 +13,11 @@ L10N = {
 	},
 	NO_UPDATE_AVAILABLE = {
 		en_US = "There are currently no new updates for SAOS!"
+	},
+	JOB_RESIGNED = {
+		en_US = "* You have resigned from your job (%s)."
+	},
+	JOB_NOT_EMPLOYED = {
+		en_US = "* You cannot resign as you are not currently employed."
 	}
 }
