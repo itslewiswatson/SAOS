@@ -13,6 +13,7 @@ function Jobs.Setup()
 	end
 	if Config.GetValue("law_enforcement_enabled") ~= "false" then
 		Jobs.Teams["Law Enforcement"] = createTeam("Law Enforcement",65,105,225)
+		Jobs.JobData["Police Officer"] = {"Law Enforcement",280,{{3,1},{22,68},{25,10}}}
 	end
 	if Config.GetValue("armed_forces_enabled") ~= "false" then
 		Jobs.Teams["Armed Forces"] = createTeam("Armed Forces",34,139,34)

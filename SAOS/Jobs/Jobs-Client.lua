@@ -1,6 +1,7 @@
 Jobs = {
 	JobData = {
-		{"Paramedic","Emergency Services",2024.3330078125,-1405.1572265625,16,"Heal players by using a spraycan, or allowing them to enter your Ambulance."}
+		{"Paramedic","Emergency Services",2024.3330078125,-1405.1572265625,16,"Heal injured players by using a spraycan, or allowing them to enter your Ambulance."},
+		{"Police Officer","Law Enforcement",1553.263671875,-1675.583984375,15,"Arrest wanted players by hitting them with your nightstick, or jacking their vehicle."},
 	},
 	JobMarkers = {}
 }
