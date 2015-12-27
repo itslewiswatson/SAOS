@@ -41,19 +41,34 @@ function Jobs.ShowJobInformation(marker)
 end
 
 function Jobs.SetupMarkers()
-	for k, v in ipairs(Jobs.JobData) do
-		local team = Team.getFromName(v[2])
-		if team then
-			local r,g,b = team:getColor()
-			local marker = Marker(v[3],v[4],v[5],"cylinder",1.5,r,g,b)
-			marker:setData("job",v[1])
-			marker:setData("team",v[2])
-			marker:setData("description",v[6])
-			table.insert(Jobs.JobMarkers,marker)
+	if not localPlayer:getData("job") then
+		for k, v in ipairs(Jobs.JobData) do
+			local team = Team.getFromName(v[2])
+			if team then
+				local r,g,b = team:getColor()
+				local marker = Marker(v[3],v[4],v[5],"cylinder",1.5,r,g,b)
+				marker:setData("job",v[1])
+				marker:setData("team",v[2])
+				marker:setData("description",v[6])
+				table.insert(Jobs.JobMarkers,marker)
+			end
 		end
 	end
-	Jobs.JobData = nil
 end
+
+function Jobs.JobChange(data)
+	if data == "job" then
+		if localPlayer:getData("job") and #Jobs.JobMarkers > 0 then
+			for k, v in ipairs(Jobs.JobMarkers) do
+				destroyElement(v)
+			end
+			Jobs.JobMarkers = {}
+		elseif not localPlayer:getData("job") and #Jobs.JobMarkers == 0 then
+			Jobs.SetupMarkers()
+		end
+	end
+end
+addEventHandler("onClientElementDataChange",localPlayer,Jobs.JobChange)
 
 function Jobs.RenderMarkers()
 	local playerPos = localPlayer:getPosition()
