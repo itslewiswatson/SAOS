@@ -32,6 +32,7 @@ function Core.PlayerQuit(quitType)
 	Joinquit.QuitHandler(source,quitType)
 	Utils.StorePlaytime(source)
 	VehicleSpawners.RemovePlayerVehicle(source)
+	Utils.ClearPlayerChatCache(source)
 end
 addEventHandler("onPlayerQuit",root,Core.PlayerQuit)
 

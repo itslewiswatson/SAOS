@@ -19,5 +19,11 @@ L10N = {
 	},
 	JOB_NOT_EMPLOYED = {
 		en_US = "* You cannot resign as you are not currently employed."
+	},
+	CHAT_REPEATING = {
+		en_US = "* Stop repeating yourself!"
+	},
+	CHAT_TOO_FAST = {
+		en_US = "* You are chatting too fast!"
 	}
 }

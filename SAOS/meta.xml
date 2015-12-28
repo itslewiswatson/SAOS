@@ -50,4 +50,5 @@
 	<script src="Utils/Utils-Commands-Server.lua" type="server" />
 	<script src="Utils/Utils-Commands-Client.lua" type="client" />
 	<script src="Utils/Utils-Client.lua" type="client" />
+	<script src="Utils/Utils-Chat.lua" type="server" />
 </meta>
