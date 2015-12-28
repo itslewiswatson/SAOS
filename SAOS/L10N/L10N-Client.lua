@@ -73,6 +73,18 @@ L10N = {
 	},
 	JOB_ACCEPT = {
 		en_US = "Accept Job"
+	},
+	SPAWNER_TITLE = {
+		en_US = "Vehicle Spawner"
+	},
+	SPAWNER_VEHICLE = {
+		en_US = "Vehicle"
+	},
+	SPAWNER_SPAWN = {
+		en_US = "Spawn"
+	},
+	SPAWNER_CLOSE = {
+		en_US = "Close"
 	}
 }
 

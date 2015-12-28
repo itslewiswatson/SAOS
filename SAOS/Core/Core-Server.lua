@@ -8,7 +8,6 @@ function Core.Initialize()
 	Spawn.Setup()
 	Weapons.Setup()
 	Utils.SetupPlaytime()
-	Updater.Setup()
 	Core.SetupMisc()
 end
 addEventHandler("onResourceStart",resourceRoot,Core.Initialize)
