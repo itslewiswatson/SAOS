@@ -3,13 +3,14 @@
 	<oop>true</oop>
 	
 	<!-- Jobs -->
-	<script src="Jobs/Jobs-Server.lua" type="server"/>
-	<script src="Jobs/Jobs-Client.lua" type="client"/>
-	<script src="Jobs/Paramedic/Paramedic-Server.lua" type="server"/>
-	<script src="Jobs/Paramedic/Paramedic-Client.lua" type="client"/>
+	<script src="Jobs/Jobs-Server.lua" type="server" />
+	<script src="Jobs/Jobs-Client.lua" type="client" />
+	<script src="Jobs/Paramedic/Paramedic-Server.lua" type="server" />
+	<script src="Jobs/Paramedic/Paramedic-Client.lua" type="client" />
 	
 	<!-- Vehicles -->
-	<script src="Vehicles/Vehicles-Server.lua" type="server"/>
+	<script src="Vehicles/VehicleSpawners-Client.lua" type="client" />
+	<script src="Vehicles/VehicleSpawners-Server.lua" type="server" />
 	
 	<!-- Accounts -->
 	<script src="Accounts/Accounts-Server.lua" type="server" />

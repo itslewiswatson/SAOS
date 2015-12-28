@@ -67,6 +67,7 @@ function Jobs.JobChange(data)
 		elseif not localPlayer:getData("job") and #Jobs.JobMarkers == 0 then
 			Jobs.SetupMarkers()
 		end
+		VehicleSpawners.Setup()
 	end
 end
 addEventHandler("onClientElementDataChange",localPlayer,Jobs.JobChange)
