@@ -4,25 +4,36 @@ Jobs = {
 }
 
 function Jobs.Setup()
-	if Config.GetValue("civilians_enabled") ~= "false" then
-		Jobs.Teams["Civilians"] = createTeam("Civilians",255,215,0)
+	local file = XML.load("Jobs.xml")
+	if file then
+		for k, v in ipairs(file:getChildren()) do
+			if v:getName() == "team" then
+				local teamName = v:getAttribute("name")
+				if teamName then
+					Jobs.Teams[teamName] = createTeam(teamName,v:getAttribute("r") or 0,v:getAttribute("g") or 0,v:getAttribute("b") or 0)
+				end
+				for key,job in ipairs(v:getChildren()) do
+					if job:getName() == "job" then
+						local jobName = job:getAttribute("name")
+						if jobName then
+							local weaponsTable = {}
+							local weaponsNode = job:findChild("weapons",0)
+							if weaponsNode then
+								for wepKey,weapon in ipairs(weaponsNode:getChildren()) do
+									local weaponID = weapon:getAttribute("id")
+									if weaponID then
+										table.insert(weaponsTable,{weaponID,weapon:getAttribute("ammo") or 1})
+									end
+								end
+							end
+							Jobs.JobData[jobName] = {teamName,tonumber(job:getAttribute("skin") or 0),weaponsTable ~= {} and weaponsTable or nil}
+						end
+					end
+				end
+			end
+		end
+		file:unload()
 	end
-	if Config.GetValue("emergency_services_enabled") ~= "false" then
-		Jobs.Teams["Emergency Services"] = createTeam("Emergency Services",0,255,255)
-		Jobs.JobData["Paramedic"] = {"Emergency Services",274,{{41,500}}}
-	end
-	if Config.GetValue("law_enforcement_enabled") ~= "false" then
-		Jobs.Teams["Law Enforcement"] = createTeam("Law Enforcement",65,105,225)
-		Jobs.JobData["Police Officer"] = {"Law Enforcement",280,{{3,1},{22,68},{25,10}}}
-	end
-	if Config.GetValue("armed_forces_enabled") ~= "false" then
-		Jobs.Teams["Armed Forces"] = createTeam("Armed Forces",34,139,34)
-	end
-	if Config.GetValue("criminals_enabled") ~= "false" then
-		Jobs.Teams["Criminals"] = createTeam("Criminals",255,0,0)
-	end
-	Jobs.Teams["Off-Duty"] = createTeam("Off-Duty",255,165,0)
-	Jobs.Teams["Unemployed"] = createTeam("Unemployed",139,137,137)
 	for k, v in ipairs(getElementsByType("player")) do
 		Jobs.SpawnHandler(v)
 	end

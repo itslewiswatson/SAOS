@@ -1,0 +1,22 @@
+<jobs>
+	<team name="Civilians" r="255" g="255" b="0">
+	</team>
+	<team name="Emergency Services" r="0" g="255" b="255">
+		<job name="Paramedic" skin="274">
+			<marker x="2024.3330078125" y="-1405.1572265625" z="16" description="Heal injured players by using a spraycan, or allowing them to enter your Ambulance." />
+			<weapons>
+				<weapon id="41" ammo="500" />
+			</weapons>
+		</job>
+	</team>
+	<team name="Law Enforcement" r="65" g="105" b="225">
+		<job name="Police Officer" skin="280">
+			<weapons>
+				<weapon id="3" />
+				<weapon id="22" ammo="68" />
+				<weapon id="25" ammo="10" />
+			</weapons>
+		</job>
+	</team>
+	<team name="Unemployed" r="139" g="137" b="137" />
+</jobs>
