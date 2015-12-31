@@ -1,6 +1,10 @@
 <meta>
-	<info author="Callum Dawson" name="SAOS" description="San Andreas Open Source" type="gamemode" />
+	<info author="CLD Systems" name="SAOS" description="San Andreas Open Source" type="gamemode" />
 	<oop>true</oop>
+	
+	<!-- Events -->
+	<script src="Events/Events-Client.lua" type="client" />
+	<script src="Events/Events-Server.lua" type="server" />
 	
 	<!-- Jobs -->
 	<script src="Jobs/Jobs-Server.lua" type="server" />

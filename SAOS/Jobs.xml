@@ -11,6 +11,7 @@
 	</team>
 	<team name="Law Enforcement" r="65" g="105" b="225">
 		<job name="Police Officer" skin="280">
+			<marker x="1553.263671875" y="-1675.583984375" z="15" description="Arrest wanted players by hitting them with your nightstick, or jacking their vehicle." />
 			<weapons>
 				<weapon id="3" />
 				<weapon id="22" ammo="68" />

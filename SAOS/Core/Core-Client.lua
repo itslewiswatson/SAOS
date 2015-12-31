@@ -2,8 +2,8 @@ Core = {}
 Core.ResX,Core.ResY = guiGetScreenSize()
 
 function Core.Initialize()
+	Events.DownloadQueue()
 	Accounts.Initialize()
-	Jobs.SetupMarkers()
 	VehicleSpawners.Setup()
 end
 addEventHandler("onClientResourceStart",resourceRoot,Core.Initialize)

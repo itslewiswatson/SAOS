@@ -1,6 +1,7 @@
 Jobs = {
 	Teams = {},
-	JobData = {}
+	JobData = {},
+	Markers = {}
 }
 
 function Jobs.Setup()
@@ -10,25 +11,32 @@ function Jobs.Setup()
 			if v:getName() == "team" then
 				local teamName = v:getAttribute("name")
 				if teamName then
-					Jobs.Teams[teamName] = createTeam(teamName,v:getAttribute("r") or 0,v:getAttribute("g") or 0,v:getAttribute("b") or 0)
-				end
-				for key,job in ipairs(v:getChildren()) do
+					local r,g,b = v:getAttribute("r") or 0,v:getAttribute("g") or 0,v:getAttribute("b") or 0
+					Jobs.Teams[teamName] = createTeam(teamName,r,g,b)
+					for k,job in ipairs(v:getChildren()) do
 					if job:getName() == "job" then
 						local jobName = job:getAttribute("name")
 						if jobName then
 							local weaponsTable = {}
-							local weaponsNode = job:findChild("weapons",0)
-							if weaponsNode then
-								for wepKey,weapon in ipairs(weaponsNode:getChildren()) do
-									local weaponID = weapon:getAttribute("id")
-									if weaponID then
-										table.insert(weaponsTable,{weaponID,weapon:getAttribute("ammo") or 1})
+							for k,jobData in ipairs(job:getChildren()) do
+								if jobData:getName() == "weapons" then
+									for k,weapon in ipairs(jobData:getChildren()) do
+										local weaponID = weapon:getAttribute("id")
+										if weaponID then
+											table.insert(weaponsTable,{weaponID,weapon:getAttribute("ammo") or 1})
+										end
+									end
+								elseif jobData:getName() == "marker" then
+									local x,y,z = jobData:getAttribute("x"),jobData:getAttribute("y"),jobData:getAttribute("z")
+									if x and y and z then
+										table.insert(Jobs.Markers,{x,y,z,jobName,teamName,jobData:getAttribute("description") or "",r,g,b})
 									end
 								end
 							end
 							Jobs.JobData[jobName] = {teamName,tonumber(job:getAttribute("skin") or 0),weaponsTable ~= {} and weaponsTable or nil}
 						end
 					end
+				end
 				end
 			end
 		end
@@ -43,8 +51,11 @@ function Jobs.SpawnHandler(player)
 	local job = player:getData("job")
 	if job and Jobs.JobData[job] and Jobs.Teams[Jobs.JobData[job][1]] then
 		player:setTeam(Jobs.Teams[Jobs.JobData[job][1]])
-	elseif not job and Jobs.Teams["Unemployed"] then
-		setPlayerTeam(player,Jobs.Teams["Unemployed"])
+	elseif not job then
+		Events.QueueEvent(player,"SAOS.DownloadJobMarkers",player,Jobs.Markers)
+		if Jobs.Teams["Unemployed"] then
+			setPlayerTeam(player,Jobs.Teams["Unemployed"])
+		end
 	end
 end
 
@@ -62,6 +73,7 @@ function Jobs.ApplyJob(player,job,weapons)
 		end
 		player:setData("job",job)
 		player:setData("jobActive",true)
+		triggerClientEvent(player,"SAOS.DeleteJobMarkers",player)
 	end
 end
 
@@ -78,6 +90,7 @@ function Jobs.PlayerResign(source)
 		source:setModel(source:getData("skin") or 0)
 		source:removeData("job")
 		source:removeData("jobSkin")
+		triggerClientEvent(source,"SAOS.DownloadJobMarkers",source,Jobs.Markers)
 		outputChatBox(string.format(Utils.GetL10N(source,"JOB_RESIGNED"),job),source,255,255,0)
 	else
 		outputChatBox(string.format(Utils.GetL10N(source,"JOB_NOT_EMPLOYED"),job),source,255,0,0)

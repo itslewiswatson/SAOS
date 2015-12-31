@@ -78,3 +78,10 @@ function VehicleSpawners.CloseSpawner()
 		showCursor(false)
 	end
 end
+
+function VehicleSpawners.JobChange(data)
+	if data == "job" then
+		VehicleSpawners.Setup()
+	end
+end
+addEventHandler("onClientElementDataChange",localPlayer,VehicleSpawners.JobChange)

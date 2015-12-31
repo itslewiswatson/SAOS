@@ -1,9 +1,5 @@
 Jobs = {
-	JobData = {
-		{"Paramedic","Emergency Services",2024.3330078125,-1405.1572265625,16,"Heal injured players by using a spraycan, or allowing them to enter your Ambulance."},
-		{"Police Officer","Law Enforcement",1553.263671875,-1675.583984375,15,"Arrest wanted players by hitting them with your nightstick, or jacking their vehicle."},
-	},
-	JobMarkers = {}
+	Markers = {}
 }
 
 function Jobs.ShowJobInformation(marker)
@@ -41,40 +37,9 @@ function Jobs.ShowJobInformation(marker)
 	end
 end
 
-function Jobs.SetupMarkers()
-	if not localPlayer:getData("job") then
-		for k, v in ipairs(Jobs.JobData) do
-			local team = Team.getFromName(v[2])
-			if team then
-				local r,g,b = team:getColor()
-				local marker = Marker(v[3],v[4],v[5],"cylinder",1.5,r,g,b)
-				marker:setData("job",v[1])
-				marker:setData("team",v[2])
-				marker:setData("description",v[6])
-				table.insert(Jobs.JobMarkers,marker)
-			end
-		end
-	end
-end
-
-function Jobs.JobChange(data)
-	if data == "job" then
-		if localPlayer:getData("job") and #Jobs.JobMarkers > 0 then
-			for k, v in ipairs(Jobs.JobMarkers) do
-				destroyElement(v)
-			end
-			Jobs.JobMarkers = {}
-		elseif not localPlayer:getData("job") and #Jobs.JobMarkers == 0 then
-			Jobs.SetupMarkers()
-		end
-		VehicleSpawners.Setup()
-	end
-end
-addEventHandler("onClientElementDataChange",localPlayer,Jobs.JobChange)
-
 function Jobs.RenderMarkers()
 	local playerPos = localPlayer:getPosition()
-	for k, v in ipairs(Jobs.JobMarkers) do
+	for k, v in ipairs(Jobs.Markers) do
 		if isElementStreamedIn(v) then
 			local pos = v:getPosition()
 			local x,y = getScreenFromWorldPosition(pos.x,pos.y,pos.z+2,0,false)
@@ -99,4 +64,33 @@ function Jobs.MarkerHit(player,dim)
 		Jobs.ShowJobInformation(source)
 	end
 end
-addEventHandler("onClientMarkerHit",root,Jobs.MarkerHit)
+
+function Jobs.MarkerLeave(player,dim)
+	if player == localPlayer and dim and isElement(Jobs.InfoWindow) then
+		destroyElement(Jobs.InfoWindow)
+		showCursor(false)
+	end
+end
+
+function Jobs.DownloadJobMarkers(markerData)
+	for k, v in ipairs(markerData) do
+		local marker = Marker(v[1],v[2],v[3],"cylinder",1.5,v[7],v[8],v[9])
+		marker:setData("job",v[4])
+		marker:setData("team",v[5])
+		marker:setData("description",v[6])
+		addEventHandler("onClientMarkerHit",marker,Jobs.MarkerHit)
+		addEventHandler("onClientMarkerLeave",marker,Jobs.MarkerLeave)
+		table.insert(Jobs.Markers,marker)
+	end
+end
+addEvent("SAOS.DownloadJobMarkers",true)
+addEventHandler("SAOS.DownloadJobMarkers",root,Jobs.DownloadJobMarkers)
+
+function Jobs.DeleteJobMarkers()
+	for k, v in ipairs(Jobs.Markers) do
+		destroyElement(v)
+	end
+	Jobs.Markers = {}
+end
+addEvent("SAOS.DeleteJobMarkers",true)
+addEventHandler("SAOS.DeleteJobMarkers",root,Jobs.DeleteJobMarkers)

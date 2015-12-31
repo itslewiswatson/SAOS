@@ -34,6 +34,8 @@ function Spawn.SpawnPlayer(id)
 		source:setData("jobActive",data[1].jobactive,false)
 		if data[1].jobactive then
 			Jobs.ApplyJob(source,data[1].job)
+		elseif not data[1].job then
+			triggerClientEvent(source,"SAOS.DownloadJobMarkers",source,Jobs.Markers)
 		end
 	else
 		source:spawn(1685.65234375,-2330.4931640625,13.546875)
