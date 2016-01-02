@@ -1,0 +1,26 @@
+<spawns>
+	<hospital name="County General Hospital">
+		<coordinates x="2033.94921875" y="-1407.1396484375" z="17.190710067749152" rot="152"></coordinates>
+	</hospital>
+	<hospital name="All Saints General Hospital">
+		<coordinates x="1179.3544921875" y="-1323.6357421875" z="14.165296554565" rot="270"></coordinates>
+	</hospital>
+	<hospital name="Crippen Memorial Hospital">
+		<coordinates x="1244.642578125" y="332.912109375" z="19.5546875" rot="335"></coordinates>
+	</hospital>
+	<hospital name="Angel Pine Medical Center">
+		<coordinates x="-2196.41796875" y="-2306.9501953125" z="30.625" rot="320"></coordinates>
+	</hospital>
+	<hospital name="San Fierro Medical Center">
+		<coordinates x="-2663.953125" y="634.890625" z="14.453125" rot="180"></coordinates>
+	</hospital>
+	<hospital name="El Quebrados Medical Center">
+		<coordinates x="-1514.609375" y="2525.583984375" z="55.773216247559" rot="0"></coordinates>
+	</hospital>
+	<hospital name="Fort Carson Medical Center">
+		<coordinates x="-321.361328125" y="1057.021484375" z="19.7421875" rot="0"></coordinates>
+	</hospital>
+	<hospital name="Las Venturas Hospital">
+		<coordinates x="1607.7412109375" y="1820.1416015625" z="10.828001022339" rot="0"></coordinates>
+	</hospital>
+</spawns>
