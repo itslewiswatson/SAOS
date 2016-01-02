@@ -18,27 +18,27 @@ function Accounts.Initialize()
 		guiEditSetMasked(Accounts.Login.PasswordEdit,true)
 		addEventHandler("onClientGUIAccepted",Accounts.Login.PasswordEdit,Accounts.ProcessLogin,false)
 		local username,password = Accounts.LoadCache()
-		guiSetText(Accounts.Login.UsernameEdit,username)
-		guiSetText(Accounts.Login.PasswordEdit,password)
+		Accounts.Login.UsernameEdit.text = username
+		Accounts.Login.PasswordEdit.tex = password
 		Accounts.Login.RememberPassword = guiCreateCheckBox(110,135,250,30,Utils.GetL10N("ACCOUNTS_REMEMBER"),false,false,Accounts.Login.Window)
 		guiCheckBoxSetSelected(Accounts.Login.RememberPassword,password ~= "")
 		Accounts.Login.LoginButton = guiCreateButton(20,175,175,30,Utils.GetL10N("ACCOUNTS_LOGIN"),false,Accounts.Login.Window)
 		addEventHandler("onClientGUIClick",Accounts.Login.LoginButton,Accounts.ProcessLogin,false)
 		Accounts.Login.RegisterButton = guiCreateButton(205,175,175,30,Utils.GetL10N("ACCOUNTS_REGISTER"),false,Accounts.Login.Window)
 		addEventHandler("onClientGUIClick",Accounts.Login.RegisterButton,function()
-			guiSetVisible(Accounts.Login.Window,false)
-			guiSetVisible(Accounts.Register.Window,true)
+			Accounts.Login.Window.visible = false
+			Accounts.Register.Window.visible = true
 			guiBringToFront(Accounts.Register.UsernameEdit)
 		end,false)
 		Accounts.Login.RecoveryButton = guiCreateButton(20,225,360,30,Utils.GetL10N("ACCOUNTS_RECOVERY"),false,Accounts.Login.Window)
-		guiSetEnabled(Accounts.Login.RecoveryButton,false)
+		Accounts.Login.RecoveryButton.enabled = false
 		showCursor(true)
 		showChat(false)
 		addEventHandler("onClientRender",root,Accounts.RenderBackground)
 		guiBringToFront(username ~= "" and Accounts.Login.PasswordEdit or Accounts.Login.UsernameEdit)
 		
 		Accounts.Register.Window = guiCreateWindow(Core.ResX/2-200,Core.ResY/2-150,400,300,Utils.GetL10N("ACCOUNTS_REGISTER_TITLE"),false)
-		guiSetVisible(Accounts.Register.Window,false)
+		Accounts.Register.Window.visible = false
 		guiWindowSetSizable(Accounts.Register.Window,false)
 		Accounts.Register.UsernameLabel = guiCreateLabel(0,50,100,20,Utils.GetL10N("ACCOUNTS_USERNAME"),false,Accounts.Register.Window)
 		guiLabelSetHorizontalAlign(Accounts.Register.UsernameLabel,"right")
@@ -63,17 +63,17 @@ function Accounts.Initialize()
 		end
 		Accounts.Register.CancelButton = guiCreateButton(205,245,175,30,Utils.GetL10N("ACCOUNTS_CANCEL"),false,Accounts.Register.Window)
 		addEventHandler("onClientGUIClick",Accounts.Register.CancelButton,function()
-			guiSetVisible(Accounts.Register.Window,false)
+			Accounts.Register.Window.visible = false
 			local username,password = Accounts.LoadCache()
-			guiSetText(Accounts.Login.UsernameEdit,username)
-			guiSetText(Accounts.Login.PasswordEdit,password)
+			Accounts.Login.UsernameEdit.text = username
+			Accounts.Login.PasswordEdit.text = password
 			if username ~= "" then
 				guiBringToFront(Accounts.Login.PasswordEdit)
 			end
 			guiCheckBoxSetSelected(Accounts.Login.RememberPassword,password ~= "")
-			guiSetVisible(Accounts.Login.Window,true)
+			Accounts.Login.Window.visible = false
 			for k, v in ipairs({Accounts.Register.UsernameEdit,Accounts.Register.PasswordEdit,Accounts.Register.PasswordConfirmEdit,Accounts.Register.EmailEdit}) do
-				guiSetText(v,"")
+				v.text = ""
 			end
 		end,false)
 	end
@@ -81,9 +81,9 @@ end
 
 function Accounts.ProcessLogin()
 	if guiGetEnabled(Accounts.Login.LoginButton) then
-		guiSetEnabled(Accounts.Login.LoginButton,false)
-		guiSetEnabled(Accounts.Login.RegisterButton,false)
-		triggerServerEvent("SAOS.Login",localPlayer,guiGetText(Accounts.Login.UsernameEdit),hash("sha512",guiGetText(Accounts.Login.PasswordEdit)))
+		Accounts.Login.LoginButton.enabled = false
+		Accounts.Login.RegisterButton.enabled = false
+		triggerServerEvent("SAOS.Login",localPlayer,Accounts.Login.UsernameEdit.text,hash("sha512",Accounts.Login.PasswordEdit.text))
 		Accounts.UpdateCache()
 	end
 end
@@ -91,25 +91,25 @@ end
 function Accounts.ProcessRegistration()
 	if guiGetEnabled(Accounts.Register.RegisterButton) then
 		for k, v in ipairs({Accounts.Register.UsernameEdit,Accounts.Register.PasswordEdit,Accounts.Register.PasswordConfirmEdit,Accounts.Register.EmailEdit}) do
-			if guiGetText(v):gsub("[%s]",""):len() == 0 then
+			if (v.text):gsub("[%s]",""):len() == 0 then
 				Accounts.Error = Utils.GetL10N("ACCOUNTS_ERROR_FIELDS")
 				Accounts.ErrorTick = getTickCount()
 				return
 			end
 		end
-		if guiGetText(Accounts.Register.PasswordEdit) ~= guiGetText(Accounts.Register.PasswordConfirmEdit) then
+		if (Accounts.Register.PasswordEdit.text) ~= Accounts.Register.PasswordConfirmEdit.text then
 			Accounts.Error = Utils.GetL10N("ACCOUNTS_ERROR_PASSWORD_MATCH")
 			Accounts.ErrorTick = getTickCount()
 			return
 		end
-		if not guiGetText(Accounts.Register.EmailEdit):match("[A-Za-z0-9%.%%%+%-]+@[A-Za-z0-9%.%%%+%-]+%.%w%w%w?%w?") then
+		if not (Accounts.Register.EmailEdit.text):match("[A-Za-z0-9%.%%%+%-]+@[A-Za-z0-9%.%%%+%-]+%.%w%w%w?%w?") then
 			Accounts.Error = Utils.GetL10N("ACCOUNTS_ERROR_EMAIL")
 			Accounts.ErrorTick = getTickCount()
 			return
 		end
-		guiSetEnabled(Accounts.Register.RegisterButton,false)
-		guiSetEnabled(Accounts.Register.CancelButton,false)
-		triggerServerEvent("SAOS.Register",localPlayer,guiGetText(Accounts.Register.UsernameEdit),hash("sha512",guiGetText(Accounts.Register.PasswordEdit)),guiGetText(Accounts.Register.EmailEdit))
+		Accounts.Register.RegisterButton.enabled = false
+		Accounts.Register.CancelButton.enabled = false
+		triggerServerEvent("SAOS.Register",localPlayer,Accounts.Register.UsernameEdit.text,hash("sha512",Accounts.Register.PasswordEdit.text),Accounts.Register.EmailEdit.text)
 	end
 end
 
@@ -127,7 +127,7 @@ function Accounts.RenderBackground()
 			Accounts.ErrorTick = nil
 		end
 	else
-		local playersText = string.format(Utils.GetL10N("ACCOUNTS_PLAYERS"),#getElementsByType("player"))
+		local playersText = string.format(Utils.GetL10N("ACCOUNTS_PLAYERS"),#Element.getAllByType("player"))
 		dxDrawText(playersText,4,Core.ResY/4*3,Core.ResX,Core.ResY+4,tocolor(0,0,0),1.5,"bankgothic","center","center")
 		dxDrawText(playersText,0,Core.ResY/4*3,Core.ResX,Core.ResY,tocolor(255,255,255),1.5,"bankgothic","center","center")
 	end
@@ -143,28 +143,28 @@ function Accounts.LoginResult(result)
 		Accounts.Error = result == 2 and Utils.GetL10N("ACCOUNTS_ERROR_CREDENTIALS") or Utils.GetL10N("ACCOUNTS_ERROR_UNKNOWN")
 		Accounts.ErrorTick = getTickCount()
 	end
-	guiSetEnabled(Accounts.Login.LoginButton,true)
-	guiSetEnabled(Accounts.Login.RegisterButton,true)
+	Accounts.Login.LoginButton.enabled = true
+	Accounts.Login.RegisterButton.enabled = true
 end
 addEvent("SAOS.onLogin",true)
 addEventHandler("SAOS.onLogin",root,Accounts.LoginResult)
 
 function Accounts.RegistrationResult(result)
 	if result == 1 then
-		guiSetVisible(Accounts.Register.Window,false)
-		guiSetText(Accounts.Login.UsernameEdit,guiGetText(Accounts.Register.UsernameEdit))
+		Accounts.Register.Window.visible = false
+		Accounts.Login.UsernameEdit.text = Accounts.Register.UsernameEdit.text
 		Accounts.UpdateCache()
-		guiSetVisible(Accounts.Login.Window,true)
+		Accounts.Login.Window.visible = true
 		guiBringToFront(Accounts.Login.PasswordEdit)
 		for k, v in ipairs({Accounts.Register.UsernameEdit,Accounts.Register.PasswordEdit,Accounts.Register.PasswordConfirmEdit,Accounts.Register.EmailEdit}) do
-			guiSetText(v,"")
+			v.text = ""
 		end
 	else
 		Accounts.Error = result == 2 and Utils.GetL10N("ACCOUNTS_ERROR_EXISTS") or Utils.GetL10N("ACCOUNTS_ERROR_UNKNOWN")
 		Accounts.ErrorTick = getTickCount()
 	end
-	guiSetEnabled(Accounts.Register.RegisterButton,true)
-	guiSetEnabled(Accounts.Register.CancelButton,true)
+	Accounts.Register.RegisterButton.enabled = true
+	Accounts.Register.CancelButton.enabled = true
 end
 addEvent("SAOS.onRegister",true)
 addEventHandler("SAOS.onRegister",root,Accounts.RegistrationResult)
@@ -183,13 +183,13 @@ function Accounts.UpdateCache()
 	local file = XML.load("@cache.xml") or XML.create("@cache.xml","cache")
 	if file then
 		local usernameXML = xmlFindChild(file,"username",0) or xmlCreateChild(file,"username")
-		xmlNodeSetValue(usernameXML,guiGetText(Accounts.Login.UsernameEdit))
+		xmlNodeSetValue(usernameXML,Accounts.Login.UsernameEdit.text)
 		local passwordXML = xmlFindChild(file,"password",0)
 		if guiCheckBoxGetSelected(Accounts.Login.RememberPassword) then
 			if not passwordXML then
 				passwordXML = xmlCreateChild(file,"password")
 			end
-			xmlNodeSetValue(passwordXML,guiGetText(Accounts.Login.PasswordEdit))
+			xmlNodeSetValue(passwordXML,Accounts.Login.PasswordEdit.text)
 		else
 			if passwordXML then
 				xmlDestroyNode(passwordXML)

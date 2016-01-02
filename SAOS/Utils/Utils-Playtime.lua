@@ -5,7 +5,7 @@ Utils.Playtime = {
 
 function Utils.SetupPlaytime()
 	SQL.Exec("CREATE TABLE IF NOT EXISTS player_playtime (id INT PRIMARY KEY, playtime INT)")
-	for k, v in ipairs(getElementsByType("player")) do
+	for k, v in ipairs(Element.getAllByType("player")) do
 		local id = v:getData("account")
 		if id then
 			Utils.PlaytimeStart(v,id)
@@ -118,7 +118,7 @@ function Utils.GetTotalPlaytime()
 	local query = SQL.Query("SELECT SUM(playtime) AS total_playtime FROM player_playtime")
 	if query and query[1] then
 		local total = query[1].total_playtime
-		for k, v in ipairs(getElementsByType("player")) do
+		for k, v in ipairs(Element.getAllByType("player")) do
 			if Utils.Playtime.LoginTime[v] then
 				total = total+(getTickCount()-Utils.Playtime.LoginTime[v])
 			end
@@ -129,7 +129,7 @@ function Utils.GetTotalPlaytime()
 end
 
 function Utils.PlaytimePulse()
-	for k, v in ipairs(getElementsByType("player")) do
+	for k, v in ipairs(Element.getAllByType("player")) do
 		local playtime = Utils.GetFormattedPlaytime(Utils.GetPlaytime(v))
 		if playtime then
 			v:setData("playtime",playtime)

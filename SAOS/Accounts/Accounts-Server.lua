@@ -18,10 +18,9 @@ function Accounts.Login(username,password)
 			Spawn.SetupBlip(client)
 			Utils.PlaytimeStart(client,id)
 			Weapons.LoadWeapons(client)
-			return SQL.Exec("UPDATE accounts SET lastnick = ?, lastip = ?, lastserial = ?, lastseen = CURRENT_TIMESTAMP WHERE id = ?",client:getName(),client:getIP(),client:getSerial(),id)
-		else
-			return triggerClientEvent(client,"SAOS.onLogin",client,2)
+			return SQL.Exec("UPDATE accounts SET lastnick = ?, lastip = ?, lastserial = ?, lastseen = CURRENT_TIMESTAMP WHERE id = ?",client.name,client.ip,client.serial,id)
 		end
+		return triggerClientEvent(client,"SAOS.onLogin",client,2)
 	end
 	triggerClientEvent(client,"SAOS.onLogin",client,0)
 end
@@ -34,7 +33,7 @@ function Accounts.Register(username,password,email)
 	end
 	if username and password and email then
 		if not Accounts.IsAccount(username) then
-			local result,rows = SQL.Query("INSERT INTO accounts (username,password,email,lastnick,lastip,lastserial) VALUES (?,?,?,?,?,?)",username,password,email,client:getName(),client:getIP(),client:getSerial())
+			local result,rows = SQL.Query("INSERT INTO accounts (username,password,email,lastnick,lastip,lastserial) VALUES (?,?,?,?,?,?)",username,password,email,client.name,client.ip,client.serial)
 			return triggerClientEvent(client,"SAOS.onRegister",client,rows == 1 and 1 or 0)
 		else
 			return triggerClientEvent(client,"SAOS.onRegister",client,2)
@@ -63,7 +62,7 @@ end
 
 function Accounts.GetAccountPlayer(account)
 	if account then
-		for k, v in ipairs(getElementsByType("player")) do
+		for k, v in ipairs(Element.getAllByType("player")) do
 			if v:getData("account") == account then
 				return v
 			end

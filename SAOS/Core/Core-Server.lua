@@ -13,7 +13,7 @@ end
 addEventHandler("onResourceStart",resourceRoot,Core.Initialize)
 
 function Core.Shutdown()
-	for k, v in ipairs(getElementsByType("player")) do
+	for k, v in ipairs(Element.getAllByType("player")) do
 		Spawn.QuitHandler(v)
 		Utils.StorePlaytime(v)
 	end

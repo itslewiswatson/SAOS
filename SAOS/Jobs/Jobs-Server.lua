@@ -42,7 +42,7 @@ function Jobs.Setup()
 		end
 		file:unload()
 	end
-	for k, v in ipairs(getElementsByType("player")) do
+	for k, v in ipairs(Element.getAllByType("player")) do
 		Jobs.SpawnHandler(v)
 	end
 end

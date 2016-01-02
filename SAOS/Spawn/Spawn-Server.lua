@@ -14,7 +14,7 @@ Spawn = {
 
 function Spawn.Setup()
 	SQL.Exec("CREATE TABLE IF NOT EXISTS spawn_data (id INTEGER PRIMARY KEY, x FLOAT, y FLOAT, z FLOAT, rotation FLOAT, interior INTEGER, dimension INTEGER, skin INTEGER, health FLOAT, armor FLOAT, money INTEGER, job TEXT, jobskin INTEGER, jobactive BOOL)")
-	for k, v in ipairs(getElementsByType("player")) do
+	for k, v in ipairs(Element.getAllByType("player")) do
 		Spawn.SetupBlip(v)
 	end
 	for k, v in ipairs(Spawn.Hospitals) do
