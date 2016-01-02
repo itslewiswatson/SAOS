@@ -19,7 +19,7 @@ function Accounts.Initialize()
 		addEventHandler("onClientGUIAccepted",Accounts.Login.PasswordEdit,Accounts.ProcessLogin,false)
 		local username,password = Accounts.LoadCache()
 		Accounts.Login.UsernameEdit.text = username
-		Accounts.Login.PasswordEdit.tex = password
+		Accounts.Login.PasswordEdit.text = password
 		Accounts.Login.RememberPassword = guiCreateCheckBox(110,135,250,30,Utils.GetL10N("ACCOUNTS_REMEMBER"),false,false,Accounts.Login.Window)
 		guiCheckBoxSetSelected(Accounts.Login.RememberPassword,password ~= "")
 		Accounts.Login.LoginButton = guiCreateButton(20,175,175,30,Utils.GetL10N("ACCOUNTS_LOGIN"),false,Accounts.Login.Window)
