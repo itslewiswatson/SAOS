@@ -10,7 +10,7 @@ VehicleSpawners = {
 function VehicleSpawners.Cleanup()
 	for k, v in ipairs(VehicleSpawners.Markers) do
 		if isElement(v) then
-			destroyElement(v)
+			v:destroy()
 		end
 	end
 	VehicleSpawners.CloseSpawner()
@@ -49,11 +49,11 @@ function VehicleSpawners.UseSpawner(player,dim)
 		local data = source:getData("data")
 		if data then
 			VehicleSpawners.Window = guiCreateWindow(Core.ResX/2-150,Core.ResY/2-175,300,350,Utils.GetL10N("SPAWNER_TITLE"),false)
-			guiWindowSetSizable(VehicleSpawners.Window,false)
+			VehicleSpawners.Window.sizable = false
 			local vehGrid = guiCreateGridList(10,30,280,200,false,VehicleSpawners.Window)
 			guiGridListAddColumn(vehGrid,Utils.GetL10N("SPAWNER_VEHICLE"),0.9)
 			local spawnButton = guiCreateButton(10,235,280,50,Utils.GetL10N("SPAWNER_SPAWN"),false,VehicleSpawners.Window)
-			guiSetEnabled(spawnButton,false)
+			spawnButton.enabled = false
 			addEventHandler("onClientGUIClick",vehGrid,function()
 				guiSetEnabled(spawnButton,guiGridListGetSelectedItem(vehGrid) ~= -1)
 			end,false)
@@ -74,7 +74,7 @@ end
 
 function VehicleSpawners.CloseSpawner()
 	if isElement(VehicleSpawners.Window) then
-		destroyElement(VehicleSpawners.Window)
+		VehicleSpawners.Window:destroy()
 		showCursor(false)
 	end
 end

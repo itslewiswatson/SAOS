@@ -79,13 +79,13 @@ end
 function Spawn.PlayerWasted(player)
 	player:fadeCamera(false,10)
 	local wepTable = Weapons.GenerateWeaponsTable(player)
-	setTimer(function(player,wepTable)
+	Timer(function(player,wepTable)
 		if isElement(player) then
 			local nearestHospital = nil
 			local nearestDistance = nil
 			local pos = player:getPosition()
-			for k, v in ipairs(Spawn.Hospitals) do
-				local distance = getDistanceBetweenPoints3D(pos.x,pos.y,pos.z,v[2],v[3],v[4])
+			for k in ipairs(Spawn.Hospitals) do
+				local distance = getDistanceBetweenPoints3D(pos,Spawn.Hospitals[k])
 				if not nearestDistance or distance < nearestDistance then
 					nearestHospital = v
 					nearestDistance = distance
@@ -108,7 +108,7 @@ end
 
 function Spawn.Cleanup(player)
 	if Spawn.PlayerBlips[player] then
-		destroyElement(Spawn.PlayerBlips[player])
+		Spawn.PlayerBlips[player]:destroy()
 		Spawn.PlayerBlips[player] = nil
 	end
 end
