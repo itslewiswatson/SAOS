@@ -94,17 +94,21 @@ function Spawn.PlayerWasted(player)
 					nearestDistance = distance
 				end
 			end
-			local money = player:getMoney()
 			local model = player:getModel()
 			player:spawn(nearestHospital[2]+math.random(-2,2),nearestHospital[3]+math.random(-2,2),nearestHospital[4],nearestHospital[5],model)
-			local bill = money >= 100 and 100 or money > 0 and money or 0
-			player:fadeCamera(true,5)
-			player:takeMoney(bill)
-			if bill < 100 then
-				player:setHealth(math.max(bill,10))
+			local hospitalBill = (Config.GetValue("hospital_bill") == "true")
+			local bill = 0
+			if hospitalBill then
+				local money = player:getMoney()
+				bill = money >= 100 and 100 or money > 0 and money or 0
+				player:takeMoney(bill)
+				if bill < 100 then
+					player:setHealth(math.max(bill,10))
+				end
 			end
+			player:fadeCamera(true,5)
 			Weapons.ApplyWeaponsTable(player,wepTable)
-			outputChatBox("* You were treated at "..nearestHospital[1].." and billed $"..tostring(bill)..".",player,255,0,0)
+			outputChatBox("* You were treated at "..nearestHospital[1]..(hospitalBill and " and billed $"..tostring(bill).."." or "."),player,255,0,0)
 		end
 	end,15000,1,player,wepTable)
 end
