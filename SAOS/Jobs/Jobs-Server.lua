@@ -33,7 +33,8 @@ function Jobs.Setup()
 									end
 								end
 							end
-							Jobs.JobData[jobName] = {teamName,tonumber(job:getAttribute("skin") or 0),weaponsTable ~= {} and weaponsTable or nil}
+							local skin = job:getAttribute("skin")
+							Jobs.JobData[jobName] = {teamName,skin and tonumber(skin) or false,weaponsTable ~= {} and weaponsTable or nil}
 						end
 					end
 				end
@@ -63,8 +64,11 @@ function Jobs.ApplyJob(player,job,weapons)
 	local jobData = Jobs.JobData[job]
 	if jobData and Jobs.Teams[jobData[1]] then
 		player:setTeam(Jobs.Teams[jobData[1]])
-		player:setModel(player:getData("jobSkin") or jobData[2])
-		player:setData("jobSkin",player:getModel())
+		local jobSkin = player:getData("jobSkin") or jobData[2]
+		if jobSkin then
+			player:setModel(jobSkin)
+			player:setData("jobSkin",jobSkin)
+		end
 		if weapons and jobData[3] then
 			for k, v in ipairs(jobData[3]) do
 				giveWeapon(player,v[1],v[2],v[3])
