@@ -71,8 +71,11 @@ end
 
 function Spawn.SetupBlip(player)
 	if not Spawn.PlayerBlips[player] and player:getTeam() then
-		local r,g,b = getPlayerNametagColor(player)
-		Spawn.PlayerBlips[player] = createBlipAttachedTo(player,0,2,r,g,b)
+		local distance = Config.GetValue("player_blip_distance")
+		if not distance or (distance and tonumber(distance) > 0) then
+			local r,g,b = getPlayerNametagColor(player)
+			Spawn.PlayerBlips[player] = createBlipAttachedTo(player,0,2,r,g,b,255,0,distance or 1000)
+		end
 	end
 end
 
