@@ -4,6 +4,11 @@ Utils.Chat = {
 }
 
 function Utils.HandleChat(msg,msgType)
+	if not source:getData("account") and Config.GetValue("restrict_guest_chat") ~= "false" then
+		cancelEvent()
+		outputChatBox(Utils.GetL10N(source,"CHAT_LOGIN"),source,255,0,0)
+		return
+	end
 	local lastMsg = Utils.Chat.LastMessage[source]
 	if lastMsg then
 		if msg == lastMsg then

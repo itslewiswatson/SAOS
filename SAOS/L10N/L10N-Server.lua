@@ -25,5 +25,8 @@ L10N = {
 	},
 	CHAT_TOO_FAST = {
 		en_US = "* You are chatting too fast!"
+	},
+	CHAT_LOGIN = {
+		en_US = "* You must login to use chat!"
 	}
 }

@@ -71,8 +71,11 @@ end
 
 function Spawn.SetupBlip(player)
 	if not Spawn.PlayerBlips[player] and player:getTeam() then
-		local r,g,b = getPlayerNametagColor(player)
-		Spawn.PlayerBlips[player] = createBlipAttachedTo(player,0,2,r,g,b)
+		local distance = Config.GetValue("player_blip_distance")
+		if not distance or (distance and tonumber(distance) > 0) then
+			local r,g,b = getPlayerNametagColor(player)
+			Spawn.PlayerBlips[player] = createBlipAttachedTo(player,0,2,r,g,b,255,0,distance or 1000)
+		end
 	end
 end
 
@@ -91,17 +94,21 @@ function Spawn.PlayerWasted(player)
 					nearestDistance = distance
 				end
 			end
-			local money = player:getMoney()
 			local model = player:getModel()
 			player:spawn(nearestHospital[2]+math.random(-2,2),nearestHospital[3]+math.random(-2,2),nearestHospital[4],nearestHospital[5],model)
-			local bill = money >= 100 and 100 or money > 0 and money or 0
-			player:fadeCamera(true,5)
-			player:takeMoney(bill)
-			if bill < 100 then
-				player:setHealth(math.max(bill,10))
+			local hospitalBill = (Config.GetValue("hospital_bill") == "true")
+			local bill = 0
+			if hospitalBill then
+				local money = player:getMoney()
+				bill = money >= 100 and 100 or money > 0 and money or 0
+				player:takeMoney(bill)
+				if bill < 100 then
+					player:setHealth(math.max(bill,10))
+				end
 			end
+			player:fadeCamera(true,5)
 			Weapons.ApplyWeaponsTable(player,wepTable)
-			outputChatBox("* You were treated at "..nearestHospital[1].." and billed $"..tostring(bill)..".",player,255,0,0)
+			outputChatBox("* You were treated at "..nearestHospital[1]..(hospitalBill and " and billed $"..tostring(bill).."." or "."),player,255,0,0)
 		end
 	end,15000,1,player,wepTable)
 end

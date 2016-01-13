@@ -2,6 +2,7 @@ VehicleSpawners = {
 	Data = {
 		{restType="Team",restValue="Law Enforcement",x=1566.9326171875,y=-1609.494140625,z=12,rot=180,vehicles={596,523}},
 		{restType="Job",restValue="Paramedic",x=2014.2890625,y=-1414.27734375,z=16,rot=90,vehicles={416}},
+		{restType="Job",restValue="Taxi Driver",x=1652.88671875,y=-1136.2414550781,z=23,rot=0,vehicles={420,438}},
 		{x=1683.173828125,y=-2305.4375,z=12,rot=0,vehicles={481}}
 	},
 	Markers = {}

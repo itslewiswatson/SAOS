@@ -1,5 +1,8 @@
 <jobs>
 	<team name="Civilians" r="255" g="255" b="0">
+		<job name="Taxi Driver">
+			<marker x="1645.1275634766" y="-1148.2960205078" z="23" description="Transport players around San Andreas in a Taxi for cash." />
+		</job>
 	</team>
 	<team name="Emergency Services" r="0" g="255" b="255">
 		<job name="Paramedic" skin="274">
