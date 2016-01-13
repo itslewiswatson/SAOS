@@ -17,6 +17,13 @@ function Spawn.Setup()
 	for k, v in ipairs(getElementsByType("player")) do
 		Spawn.SetupBlip(v)
 	end
+	local file = XML.load("Spawns.xml"):getChildren()
+	for i, node in ipairs(file) do
+		local hospitalName = node:getAttribute("name")
+		local coordinates = node:getChildren(0)
+		local x, y, z = coordinates:getAttribute("x"), coordinates:getAttribute("y"), coordinates:getAttribute("z")
+		table.insert(Spawn.Hospitals, {hospitalName, x, y, z})
+	end
 	for k, v in ipairs(Spawn.Hospitals) do
 		createBlip(v[2],v[3],v[4],22,2,255,0,0,255,0,500)
 	end
